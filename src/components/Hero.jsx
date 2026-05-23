@@ -324,7 +324,15 @@ export default function Hero() {
               </svg>
             )}
           </button>
-          <audio ref={audioRef} className="hero-music-player-shell" src="/audio/tva-theme.mp3" preload="auto" loop />
+          <audio
+            ref={audioRef}
+            className="hero-music-player-shell"
+            src="/audio/tva-theme.mp3"
+            preload="auto"
+            autoPlay
+            playsInline
+            loop
+          />
         </div>
         <div className="hero-buttons">
           <a href="#highlights" className="btn btn-primary">
