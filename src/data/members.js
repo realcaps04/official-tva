@@ -7,6 +7,13 @@ export const members = [
     image: '/images/eagle_gaming.jpg'
   },
   {
+    initial: 'B',
+    name: 'Blind joker (Sharathettan)',
+    role: 'God Father',
+    instagram: 'https://www.instagram.com/blindjok3r?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==',
+    image: '/images/blind_joker.jpg'
+  },
+  {
     initial: 'C',
     name: 'Chandra Boss',
     role: 'Co-Leader',
