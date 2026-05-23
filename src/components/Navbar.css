@@ -181,3 +181,105 @@
     display: flex;
   }
 }
+
+/* ---- Dev Notice Tooltip ---- */
+.dev-notice-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dev-icon {
+  width: 28px;
+  height: 28px;
+  background: var(--accent-red);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  color: #fff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Orbitron', sans-serif;
+  font-weight: 900;
+  font-size: 1rem;
+  cursor: help;
+  transition: all var(--transition-fast);
+  box-shadow: 0 0 10px rgba(230, 57, 70, 0.4);
+}
+
+.dev-notice-wrapper:hover .dev-icon {
+  transform: scale(1.1);
+  box-shadow: 0 0 20px rgba(230, 57, 70, 0.8);
+}
+
+.dev-popup {
+  position: absolute;
+  top: calc(100% + 15px);
+  right: -10px;
+  width: 260px;
+  background: rgba(14, 14, 28, 0.95);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--border-glow-red);
+  border-radius: var(--radius-sm);
+  padding: 16px;
+  box-shadow: var(--shadow-glow-red);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-10px);
+  transition: all var(--transition-med);
+  z-index: 100;
+  text-align: left;
+}
+
+.dev-popup::before {
+  content: '';
+  position: absolute;
+  top: -6px;
+  right: 18px;
+  width: 12px;
+  height: 12px;
+  background: rgba(14, 14, 28, 0.95);
+  border-top: 1px solid var(--border-glow-red);
+  border-left: 1px solid var(--border-glow-red);
+  transform: rotate(45deg);
+}
+
+.dev-notice-wrapper:hover .dev-popup {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.dev-popup p {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  margin-bottom: 10px;
+  line-height: 1.5;
+  font-family: 'Inter', sans-serif;
+  text-transform: none;
+  letter-spacing: normal;
+}
+
+.dev-popup p:last-of-type {
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 12px;
+}
+
+.dev-ig-link {
+  display: inline-block;
+  font-size: 0.75rem;
+  color: var(--accent-blue-light);
+  text-decoration: none;
+  font-weight: 500;
+  border-bottom: 1px solid transparent;
+  transition: border-color var(--transition-fast);
+  font-family: 'Inter', sans-serif;
+  text-transform: none;
+  letter-spacing: normal;
+}
+
+.dev-ig-link:hover {
+  border-color: var(--accent-blue-light);
+}

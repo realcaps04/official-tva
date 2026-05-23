@@ -51,11 +51,17 @@ export default function Members() {
               <div className="member-name">{m.name}</div>
               <div className="member-role">{m.role}</div>
               <div className="member-socials">
-                <a href="#" aria-label="YouTube">
-                  <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2 31.5 31.5 0 0 0 0 12a31.5 31.5 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1A31.5 31.5 0 0 0 24 12a31.5 31.5 0 0 0-.5-5.8zM9.6 15.6V8.4l6.3 3.6-6.3 3.6z"/></svg>
+                <a href="#" aria-label="YouTube" className="social-icon">
+                  <img src="/images/youtube.png" alt="YouTube" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
                 </a>
-                <a href="#" aria-label="Instagram">
-                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+                <a href="#" aria-label="Kick" className="social-icon">
+                  <img src="/images/kick.png" alt="Kick" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
+                </a>
+                <a href="#" aria-label="Instagram" className="social-icon">
+                  <img src="/images/instagram.png" alt="Instagram" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
+                </a>
+                <a href="#" aria-label="Discord" className="social-icon">
+                  <img src="/images/discord.png" alt="Discord" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
                 </a>
               </div>
             </div>

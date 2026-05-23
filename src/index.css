@@ -27,7 +27,7 @@
   --text-secondary: #b0b0c8;
   --text-muted: #5c5c7a;
 
-  --gradient-hero: linear-gradient(135deg, var(--accent-red) 0%, var(--accent-purple) 50%, var(--accent-blue) 100%);
+  --gradient-hero: linear-gradient(135deg, var(--accent-red) 0%, #000000 50%, var(--accent-blue) 100%);
   --gradient-card: linear-gradient(145deg, rgba(230,57,70,0.06) 0%, rgba(67,97,238,0.06) 100%);
   --gradient-btn-primary: linear-gradient(135deg, var(--accent-red) 0%, var(--accent-red-dark) 100%);
 

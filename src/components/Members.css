@@ -30,11 +30,13 @@
 
 .members-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 24px;
-  max-width: 900px;
-  margin: 0 auto;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 20px;
+  width: 95vw;
+  max-width: 1600px;
   position: relative;
+  left: 50%;
+  transform: translateX(-50%);
   z-index: 1;
 }
 
