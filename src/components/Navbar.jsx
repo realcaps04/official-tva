@@ -15,21 +15,28 @@ export default function Navbar() {
 
   const closeMenu = () => setMenuOpen(false);
 
+  const handleHomeClick = () => {
+    closeMenu();
+    if (window.location.pathname === '/') {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  };
+
   return (
     <nav className={`navbar ${scrolled ? 'scrolled' : ''}`} id="navbar">
       <div className="nav-container">
         {/* Left — Logo */}
-        <Link to="/" className="nav-logo" onClick={closeMenu}>
+        <Link to="/" className="nav-logo" onClick={handleHomeClick}>
           <img src="/images/header-logo.png" alt="TVA Logo" className="nav-logo-img" />
         </Link>
 
         {/* Center — Links */}
         <ul className={`nav-links ${menuOpen ? 'active' : ''}`} id="nav-links">
-          <li><Link to="/" onClick={closeMenu}>Home</Link></li>
+          <li><Link to="/" onClick={handleHomeClick}>Home</Link></li>
           <li><HashLink smooth to="/#about" onClick={closeMenu}>About</HashLink></li>
           <li><HashLink smooth to="/#members" onClick={closeMenu}>Crew</HashLink></li>
           <li><HashLink smooth to="/#highlights" onClick={closeMenu}>Highlights</HashLink></li>
-          <li><HashLink smooth to="/#games" onClick={closeMenu}>Games</HashLink></li>
+          <li><Link to="/live" onClick={closeMenu}>Live</Link></li>
           <li><HashLink smooth to="/#tournaments" onClick={closeMenu}>Tournaments</HashLink></li>
         </ul>
 

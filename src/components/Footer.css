@@ -17,7 +17,7 @@
 
 .footer-grid {
   display: grid;
-  grid-template-columns: 2fr 1fr 1fr 1fr;
+  grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
   gap: 48px;
   margin-bottom: 44px;
 }
@@ -79,6 +79,10 @@
 .footer-col ul li a:hover {
   color: var(--accent-red-light);
   padding-left: 4px;
+}
+
+.footer-col ul li a.hover-green:hover {
+  color: #10b981; /* Neon green */
 }
 
 .footer-bottom {

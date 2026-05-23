@@ -38,6 +38,12 @@ export default function Footer() {
               </ul>
             </div>
             <div className="footer-col">
+              <h4>Other Gangs</h4>
+              <ul>
+                <li><Link to="/kva" className="hover-green">Gang KVA</Link></li>
+              </ul>
+            </div>
+            <div className="footer-col">
               <h4>Developer</h4>
               <ul>
                 <li><a href="#" onClick={(e) => { e.preventDefault(); setShowModal(true); }}>Why I built ?</a></li>
