@@ -9,6 +9,7 @@ export default function Hero() {
   const playerRef = useRef(null);
   const playerHostRef = useRef(null);
   const userPausedRef = useRef(false);
+  const isPlayingRef = useRef(false);
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isPlayerReady, setIsPlayerReady] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -165,6 +166,11 @@ export default function Hero() {
   useEffect(() => {
     let cancelled = false;
 
+    const setPlayingState = (nextValue) => {
+      isPlayingRef.current = nextValue;
+      setIsPlaying(nextValue);
+    };
+
     const attemptPlay = () => {
       if (cancelled || userPausedRef.current || !playerRef.current) return;
       try {
@@ -174,7 +180,7 @@ export default function Hero() {
 
     const syncPlayerState = (state) => {
       if (!window.YT?.PlayerState) return;
-      setIsPlaying(state === window.YT.PlayerState.PLAYING);
+      setPlayingState(state === window.YT.PlayerState.PLAYING);
     };
 
     const mountPlayer = () => {
@@ -210,7 +216,7 @@ export default function Hero() {
           },
           onError: () => {
             if (cancelled) return;
-            setIsPlaying(false);
+            setPlayingState(false);
           },
         },
       });
@@ -239,7 +245,8 @@ export default function Hero() {
     };
 
     const unlockPlayback = () => {
-      if (isPlaying) return;
+      if (isPlayingRef.current) return;
+      if (document.visibilityState === 'hidden') return;
       attemptPlay();
     };
 
@@ -259,7 +266,7 @@ export default function Hero() {
       }
       playerRef.current = null;
     };
-  }, [isPlaying]);
+  }, []);
 
   const handleMusicToggle = () => {
     if (!playerRef.current) return;
@@ -267,6 +274,7 @@ export default function Hero() {
     if (isPlaying) {
       userPausedRef.current = true;
       playerRef.current.pauseVideo();
+      isPlayingRef.current = false;
       setIsPlaying(false);
       return;
     }
