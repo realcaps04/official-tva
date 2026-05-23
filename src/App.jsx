@@ -5,7 +5,6 @@ import Footer from './components/Footer';
 import Home from './pages/Home';
 import CrewPage from './pages/CrewPage';
 import KvaPage from './pages/KvaPage';
-import LivePage from './pages/LivePage';
 
 function App() {
   return (
@@ -15,7 +14,6 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/crew" element={<CrewPage />} />
         <Route path="/kva" element={<KvaPage />} />
-        <Route path="/live" element={<LivePage />} />
       </Routes>
       <Footer />
     </Router>

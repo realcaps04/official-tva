@@ -5,17 +5,26 @@ import { dedupeRequest } from '../utils/dedupe';
 import { UnifiedStreamerResponse, createOfflineResponse } from '../utils/normalize';
 
 // Maintain a static list of tracked channels (this could be moved to a DB later)
-export const TRACKED_CHANNELS = [
+type TrackedChannel = {
+  platform: 'kick' | 'youtube';
+  id: string;
+  url: string;
+};
+
+export const TRACKED_CHANNELS: TrackedChannel[] = [
   { platform: 'youtube', id: 'eaglegamingop', url: 'https://www.youtube.com/@eaglegamingop' }, // Actually requires channel ID, placeholder here
-  { platform: 'kick', id: 'SNIPETVA', url: 'https://kick.com/SNIPETVA' },
+  { platform: 'kick', id: 'snipetva', url: 'https://kick.com/snipetva' },
   { platform: 'kick', id: 'germankannapiog', url: 'https://kick.com/germankannapiog' },
   { platform: 'kick', id: 'blindjoker', url: 'https://kick.com/blindjoker' },
-  { platform: 'kick', id: 'MenAtArms', url: 'https://kick.com/MenAtArms' },
-  { platform: 'kick', id: 'KILLUAAGAMING', url: 'https://kick.com/KILLUAAGAMING' },
+  { platform: 'kick', id: 'menatarms', url: 'https://kick.com/menatarms' },
+  { platform: 'kick', id: 'killuaagaming', url: 'https://kick.com/killuaagaming' },
   { platform: 'kick', id: 'harithebeast', url: 'https://kick.com/harithebeast' },
   { platform: 'kick', id: 'destrotva', url: 'https://kick.com/destrotva' },
   { platform: 'kick', id: 'tvaraayan', url: 'https://kick.com/tvaraayan' },
-  { platform: 'kick', id: 'verumsrk', url: 'https://kick.com/verumsrk' },
+  { platform: 'kick', id: 'savagetva', url: 'https://kick.com/savagetva' },
+  { platform: 'kick', id: 'rhaegargaming', url: 'https://kick.com/rhaegargaming' },
+  { platform: 'kick', id: 'malluvinvergaming', url: 'https://kick.com/malluvinvergaming' },
+  { platform: 'kick', id: 'verumserk', url: 'https://kick.com/verumserk' },
   { platform: 'kick', id: 'mrzgoku', url: 'https://kick.com/mrzgoku' }
 ];
 

@@ -2,6 +2,7 @@ import { Router, Request, Response } from 'express';
 import { LiveService } from '../services/live.service';
 
 const router = Router();
+type LiveRouteParams = { platform: string; id: string };
 
 // GET /api/live/all
 // Returns all tracked channels (mostly from cache)
@@ -17,7 +18,7 @@ router.get('/all', async (req: Request, res: Response) => {
 
 // GET /api/live/:platform/:id
 // Fetches specific channel
-router.get('/:platform/:id', async (req: Request, res: Response) => {
+router.get('/:platform/:id', async (req: Request<LiveRouteParams>, res: Response) => {
   try {
     const { platform, id } = req.params;
     // URL would typically be retrieved from a DB, hardcoding for Kick mostly here
