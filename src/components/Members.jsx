@@ -42,20 +42,25 @@ export default function Members({ limit, showViewAll }) {
               style={{ transitionDelay: `${(i % 6) * 0.08}s` }}
             >
               <div className="card-glow"></div>
-              <div className="member-avatar">{m.initial}</div>
+              <div className="member-avatar">
+                {m.image ? (
+                  <img src={m.image} alt={m.name} style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '50%' }} onError={(e) => { e.target.style.display = 'none'; e.target.nextSibling.style.display = 'block'; }} />
+                ) : null}
+                <span style={{ display: m.image ? 'none' : 'block' }}>{m.initial}</span>
+              </div>
               <div className="member-name">{m.name}</div>
               <div className="member-role">{m.role}</div>
               <div className="member-socials">
-                <a href="#" aria-label="YouTube" className="social-icon">
+                <a href={m.youtube || "#"} target="_blank" rel="noreferrer" aria-label="YouTube" className="social-icon">
                   <img src="/images/youtube.png" alt="YouTube" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
                 </a>
-                <a href="#" aria-label="Kick" className="social-icon">
+                <a href={m.kick || "#"} target="_blank" rel="noreferrer" aria-label="Kick" className="social-icon">
                   <img src="/images/kick.png" alt="Kick" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
                 </a>
-                <a href="#" aria-label="Instagram" className="social-icon">
+                <a href={m.instagram || "#"} target="_blank" rel="noreferrer" aria-label="Instagram" className="social-icon">
                   <img src="/images/instagram.png" alt="Instagram" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
                 </a>
-                <a href="#" aria-label="Discord" className="social-icon">
+                <a href={m.discord || "#"} target="_blank" rel="noreferrer" aria-label="Discord" className="social-icon">
                   <img src="/images/discord.png" alt="Discord" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
                 </a>
               </div>

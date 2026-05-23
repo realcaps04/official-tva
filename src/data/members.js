@@ -1,5 +1,11 @@
 export const members = [
-  { initial: 'K', name: 'Kairo', role: 'Founder / OG' },
+  { 
+    initial: 'E', 
+    name: 'Eagle Gaming (Dilin Dineshan)', 
+    role: 'Founder, Leader',
+    instagram: 'https://www.instagram.com/eagle.gamingop?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==',
+    image: '/images/eagle_gaming.jpg' // Placeholder until image is uploaded
+  },
   { initial: 'V', name: 'Venom', role: 'Warlord' },
   { initial: 'R', name: 'Reaper', role: 'Enforcer' },
   { initial: 'S', name: 'Shadow', role: 'Strategist' },

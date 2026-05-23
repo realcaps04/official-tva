@@ -55,18 +55,7 @@
   overflow: hidden;
 }
 
-.highlight-placeholder {
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(135deg, #0b0b16 0%, #151525 40%, #0e0e1c 100%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 2.5rem;
-  transition: transform var(--transition-med);
-}
-
-.highlight-card:hover .highlight-placeholder {
+.highlight-card:hover .highlight-image {
   transform: scale(1.06);
 }
 

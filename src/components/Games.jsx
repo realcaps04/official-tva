@@ -2,9 +2,10 @@ import { useEffect, useRef } from 'react';
 import './Games.css';
 
 const games = [
-  { name: 'GTA V Roleplay', genre: 'Open World / RP', emoji: '🏎️' },
-  { name: 'Valorant', genre: 'Tactical Shooter', emoji: '🎯' },
-  { name: 'Minecraft', genre: 'Sandbox / Survival', emoji: '⛏️' },
+  { name: 'GTA V Roleplay', genre: 'Open World / RP', image: '/images/gta.jpg' },
+  { name: 'Valorant', genre: 'Tactical Shooter', image: '/images/valorant.jpg' },
+  { name: 'Forza Horizon', genre: 'Racing', image: '/images/forza.jpg' },
+  { name: 'CS:GO', genre: 'Tactical Shooter', image: '/images/csgo.png' },
 ];
 
 export default function Games() {
@@ -39,9 +40,14 @@ export default function Games() {
         <div className="games-grid">
           {games.map((g, i) => (
             <div className="game-card reveal" key={i} style={{ transitionDelay: `${i * 0.12}s` }}>
-              <div className="game-card-bg">
-                <span className="game-emoji">{g.emoji}</span>
-              </div>
+              <div 
+                className="game-card-bg" 
+                style={{ 
+                  backgroundImage: `url(${g.image})`,
+                  backgroundSize: 'cover',
+                  backgroundPosition: 'center'
+                }}
+              ></div>
               <div className="game-card-overlay">
                 <div className="game-name">{g.name}</div>
                 <div className="game-genre">{g.genre}</div>

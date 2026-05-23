@@ -3,19 +3,22 @@ import './Highlights.css';
 
 const highlights = [
   {
-    title: 'The Great Gang War — TVA vs Rivals',
-    meta: '245K views • 3 months ago',
-    emoji: '⚔️',
+    title: 'CAPS 4 YEAR JOURNEY 🥺 | TVA GANG | GTA 5 ROLEPLAY MALAYALAM |',
+    meta: 'TVA Highlights',
+    url: 'https://youtu.be/ol3Y1HhaavM?si=OceEvOf2quojw9ix',
+    thumbnail: 'https://img.youtube.com/vi/ol3Y1HhaavM/maxresdefault.jpg',
   },
   {
-    title: '$10M Heist — Clean Getaway',
-    meta: '189K views • 1 month ago',
-    emoji: '💰',
+    title: 'THE BOYS IS BACK.. 😈 | TVA ROLEPLAY | GTA 5 ROLEPLAY MALAYALAM |',
+    meta: 'TVA Highlights',
+    url: 'https://youtu.be/YDvtoLZKVDg?si=rwfklOQn-KVgsULH',
+    thumbnail: 'https://img.youtube.com/vi/YDvtoLZKVDg/maxresdefault.jpg',
   },
   {
-    title: 'Insane Police Chase — 20 Min Escape',
-    meta: '312K views • 2 weeks ago',
-    emoji: '🚔',
+    title: 'THE END 🥺 | TVA GANG | GTA 5 ROLEPLAY MALAYALAM |',
+    meta: 'TVA Highlights',
+    url: 'https://youtu.be/1kmwxA91SUQ?si=-Cq_ePjMpwHdAUMm',
+    thumbnail: 'https://img.youtube.com/vi/1kmwxA91SUQ/maxresdefault.jpg',
   },
 ];
 
@@ -51,22 +54,33 @@ export default function Highlights() {
         </p>
         <div className="highlights-grid">
           {highlights.map((h, i) => (
-            <div
+            <a
+              href={h.url}
+              target="_blank"
+              rel="noreferrer"
               className="highlight-card reveal"
               key={i}
-              style={{ transitionDelay: `${i * 0.1}s` }}
+              style={{ transitionDelay: `${i * 0.1}s`, textDecoration: 'none', display: 'block' }}
             >
               <div className="highlight-thumbnail">
-                <div className="highlight-placeholder">
-                  <span>{h.emoji}</span>
-                </div>
+                <div 
+                  className="highlight-image" 
+                  style={{ 
+                    backgroundImage: `url(${h.thumbnail})`,
+                    backgroundSize: 'cover',
+                    backgroundPosition: 'center',
+                    width: '100%',
+                    height: '100%',
+                    transition: 'transform var(--transition-med)'
+                  }} 
+                />
                 <div className="highlight-play"></div>
               </div>
               <div className="highlight-info">
                 <div className="highlight-title">{h.title}</div>
                 <div className="highlight-meta">{h.meta}</div>
               </div>
-            </div>
+            </a>
           ))}
         </div>
       </div>
