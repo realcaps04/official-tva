@@ -7,11 +7,10 @@ export default function Footer() {
         <div className="footer-grid">
           <div className="footer-brand">
             <a href="#" className="footer-logo">
-              <span className="footer-logo-text">TVA</span>
+              <img src="/images/header-logo.png" alt="TVA Logo" style={{ height: '48px', objectFit: 'contain' }} />
             </a>
             <p>
-              The ultimate fan page for the TVA crew. Dominating GTA RP and every game we touch.
-              Built by fans, for the family.
+              The ultimate page for the TVA Family. Dominating GTA RP and every game we touch. Built by fans, for the family.
             </p>
           </div>
           <div className="footer-col">

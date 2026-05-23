@@ -36,8 +36,7 @@ export default function Navbar() {
             <span className="dev-icon">!</span>
             <div className="dev-popup">
               <p>The website is under development so mistakes may be occured. So kindly support until the completion.</p>
-              <p>Regards, developer Caps</p>
-              <a href="https://www.instagram.com/caps_real_?igsh=MW5majV6b3c0cHY0Yg==" target="_blank" rel="noreferrer" className="dev-ig-link">Follow me on Instagram</a>
+              <p>Regards, developer <a href="https://www.instagram.com/caps_real_?igsh=MW5majV6b3c0cHY0Yg==" target="_blank" rel="noreferrer" className="dev-ig-link">Caps</a></p>
             </div>
           </div>
           <a href="#community" className="btn btn-primary nav-cta">
