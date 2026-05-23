@@ -64,6 +64,22 @@
   margin-bottom: 24px;
 }
 
+.about-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.about-tva-logo {
+  height: 1.1em;
+  width: auto;
+  vertical-align: middle;
+  mix-blend-mode: screen;
+  filter: brightness(0.6) sepia(1) hue-rotate(320deg) saturate(70) brightness(1.2);
+  transform: translateY(2px);
+}
+
 .about-text p {
   color: var(--text-secondary);
   font-size: 1rem;
@@ -119,8 +135,25 @@
 
 .stat-icon {
   position: relative;
-  font-size: 1.6rem;
-  margin-bottom: 12px;
+  margin-bottom: 16px;
+  display: flex;
+  justify-content: center;
+}
+
+.stat-icon svg {
+  width: 32px;
+  height: 32px;
+  transition: all var(--transition-fast);
+}
+
+.stat-card:nth-child(odd) .stat-icon svg {
+  color: var(--accent-red);
+  filter: drop-shadow(0 0 10px rgba(230, 57, 70, 0.4));
+}
+
+.stat-card:nth-child(even) .stat-icon svg {
+  color: var(--accent-blue);
+  filter: drop-shadow(0 0 10px rgba(67, 97, 238, 0.4));
 }
 
 .stat-number {
