@@ -1,10 +1,13 @@
 import { useState, useEffect, useRef } from 'react';
 import './Hero.css';
 
+const YOUTUBE_VIDEO_ID = 'KIBfEONu9zA';
+
 export default function Hero() {
   const canvasRef = useRef(null);
   const glitchRef = useRef(null);
-  const audioRef = useRef(null);
+  const playerRef = useRef(null);
+  const playerHostRef = useRef(null);
   const userPausedRef = useRef(false);
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isPlayerReady, setIsPlayerReady] = useState(false);
@@ -160,69 +163,116 @@ export default function Hero() {
   }, [bannerImages.length]);
 
   useEffect(() => {
-    const audio = audioRef.current;
-    if (!audio) return;
+    let cancelled = false;
 
-    const attemptPlay = async () => {
-      if (userPausedRef.current) return;
+    const attemptPlay = () => {
+      if (cancelled || userPausedRef.current || !playerRef.current) return;
       try {
-        await audio.play();
+        playerRef.current.playVideo();
       } catch {}
     };
 
-    const handleCanPlay = () => {
-      setIsPlayerReady(true);
-      void attemptPlay();
+    const syncPlayerState = (state) => {
+      if (!window.YT?.PlayerState) return;
+      setIsPlaying(state === window.YT.PlayerState.PLAYING);
     };
 
-    const handlePlay = () => setIsPlaying(true);
-    const handlePause = () => setIsPlaying(false);
-    const handleEnded = () => setIsPlaying(false);
+    const mountPlayer = () => {
+      if (cancelled || playerRef.current || !playerHostRef.current || !window.YT?.Player) {
+        return;
+      }
+
+      playerRef.current = new window.YT.Player(playerHostRef.current, {
+        videoId: YOUTUBE_VIDEO_ID,
+        playerVars: {
+          autoplay: 1,
+          controls: 0,
+          disablekb: 1,
+          fs: 0,
+          loop: 1,
+          modestbranding: 1,
+          playsinline: 1,
+          rel: 0,
+          playlist: YOUTUBE_VIDEO_ID,
+        },
+        events: {
+          onReady: (event) => {
+            if (cancelled) return;
+            setIsPlayerReady(true);
+            try {
+              event.target.setVolume(100);
+            } catch {}
+            attemptPlay();
+          },
+          onStateChange: (event) => {
+            if (cancelled) return;
+            syncPlayerState(event.data);
+          },
+          onError: () => {
+            if (cancelled) return;
+            setIsPlaying(false);
+          },
+        },
+      });
+    };
+
+    const loadYoutubePlayer = () => {
+      if (window.YT?.Player) {
+        mountPlayer();
+        return;
+      }
+
+      const existingScript = document.querySelector('script[data-youtube-player="true"]');
+      if (!existingScript) {
+        const script = document.createElement('script');
+        script.src = 'https://www.youtube.com/iframe_api';
+        script.async = true;
+        script.dataset.youtubePlayer = 'true';
+        document.body.appendChild(script);
+      }
+
+      const previousReady = window.onYouTubeIframeAPIReady;
+      window.onYouTubeIframeAPIReady = () => {
+        previousReady?.();
+        mountPlayer();
+      };
+    };
 
     const unlockPlayback = () => {
-      if (!audio.paused) return;
-      void attemptPlay();
+      if (isPlaying) return;
+      attemptPlay();
     };
 
-    audio.addEventListener('canplay', handleCanPlay);
-    audio.addEventListener('play', handlePlay);
-    audio.addEventListener('pause', handlePause);
-    audio.addEventListener('ended', handleEnded);
-
-    if (audio.readyState >= 3) {
-      handleCanPlay();
-    } else {
-      audio.load();
-    }
+    loadYoutubePlayer();
 
     window.addEventListener('pointerdown', unlockPlayback, { passive: true });
     window.addEventListener('keydown', unlockPlayback);
     document.addEventListener('visibilitychange', unlockPlayback);
 
     return () => {
-      audio.removeEventListener('canplay', handleCanPlay);
-      audio.removeEventListener('play', handlePlay);
-      audio.removeEventListener('pause', handlePause);
-      audio.removeEventListener('ended', handleEnded);
+      cancelled = true;
       window.removeEventListener('pointerdown', unlockPlayback);
       window.removeEventListener('keydown', unlockPlayback);
       document.removeEventListener('visibilitychange', unlockPlayback);
+      if (playerRef.current?.destroy) {
+        playerRef.current.destroy();
+      }
+      playerRef.current = null;
     };
-  }, []);
+  }, [isPlaying]);
 
   const handleMusicToggle = () => {
-    const audio = audioRef.current;
-    if (!audio) return;
+    if (!playerRef.current) return;
 
     if (isPlaying) {
       userPausedRef.current = true;
-      audio.pause();
+      playerRef.current.pauseVideo();
       setIsPlaying(false);
       return;
     }
 
     userPausedRef.current = false;
-    void audio.play();
+    playerRef.current.playVideo();
   };
 
   return (
@@ -324,15 +374,9 @@ export default function Hero() {
               </svg>
             )}
           </button>
-          <audio
-            ref={audioRef}
-            className="hero-music-player-shell"
-            src="/audio/tva-theme.mp3"
-            preload="auto"
-            autoPlay
-            playsInline
-            loop
-          />
+          <div className="hero-music-player-shell" aria-hidden="true">
+            <div ref={playerHostRef}></div>
+          </div>
         </div>
         <div className="hero-buttons">
           <a href="#highlights" className="btn btn-primary">
