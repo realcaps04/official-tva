@@ -371,6 +371,49 @@
   align-items: center;
   margin: 2px 0 28px;
   padding-right: 4vw;
+  position: relative;
+}
+
+.hero-music-hint {
+  position: absolute;
+  right: 42px;
+  top: -34px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px 10px;
+  border-radius: 999px;
+  border: 1px solid rgba(230, 57, 70, 0.8);
+  background: rgba(8, 8, 15, 0.9);
+  color: rgba(230, 57, 70, 0.98);
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.5rem;
+  letter-spacing: 1.1px;
+  text-transform: uppercase;
+  box-shadow: 0 0 14px rgba(230, 57, 70, 0.14);
+  animation: heroHintPopup 1.8s ease-in-out infinite;
+  white-space: nowrap;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.hero-music-hint__text {
+  text-shadow: 0 0 8px rgba(230, 57, 70, 0.25);
+}
+
+.hero-music-hint__arrow {
+  display: none;
+}
+
+@keyframes heroHintPopup {
+  0%, 100% {
+    opacity: 0.72;
+    transform: translateY(0);
+  }
+  50% {
+    opacity: 1;
+    transform: translateY(-2px);
+  }
 }
 
 .hero-music-wave {
@@ -509,6 +552,11 @@
     padding-right: 0;
   }
 
+  .hero-music-hint {
+    right: 28px;
+    top: -34px;
+  }
+
   .hero-logo-wrapper {
     max-width: 400px;
   }
@@ -522,6 +570,13 @@
 @media (max-width: 480px) {
   .hero-music-mini {
     gap: 10px;
+  }
+
+  .hero-music-hint {
+    right: 18px;
+    top: -30px;
+    padding: 5px 9px;
+    font-size: 0.44rem;
   }
 
   .hero-buttons {

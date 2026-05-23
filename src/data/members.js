@@ -27,10 +27,34 @@ export const members = [
     instagram: 'https://www.instagram.com/ig.rhaegar?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==',
     image: '/images/madara_uchiha.jpg'
   },
-  { initial: 'B', name: 'Babu Namboothiri', role: 'Undeclared Co leader' },
-  { initial: 'S', name: 'Snipe', role: 'Member' },
-  { initial: 'J', name: 'Juggru', role: 'Member' },
-  { initial: 'N', name: 'Neelan', role: 'Member' },
+  {
+    initial: 'B',
+    name: 'Babu Namboothiri',
+    role: 'Undeclared Co leader',
+    instagram: 'https://www.instagram.com/le_njn_ajmal?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==',
+    image: '/images/babu_namboothiri.jpg'
+  },
+  {
+    initial: 'S',
+    name: 'Snipe',
+    role: 'Member',
+    instagram: 'https://www.instagram.com/the__snipe?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==',
+    image: '/images/snipe.jpg'
+  },
+  {
+    initial: 'J',
+    name: 'Juggru',
+    role: 'Member',
+    instagram: 'https://www.instagram.com/juggru.yt?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==',
+    image: '/images/juggru.jpg'
+  },
+  {
+    initial: 'N',
+    name: 'Neelan',
+    role: 'Member',
+    instagram: 'https://www.instagram.com/hari.the.beast?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==',
+    image: '/images/neelan.jpg'
+  },
   { initial: 'K', name: 'Kuruppu', role: 'Member' },
   { initial: 'D', name: 'Demon', role: 'Member' },
   { initial: 'M', name: 'Messboi Goku', role: 'Member' },

@@ -10,6 +10,7 @@ export default function Hero() {
   const playerHostRef = useRef(null);
   const userPausedRef = useRef(false);
   const isPlayingRef = useRef(false);
+  const [showPlayHint, setShowPlayHint] = useState(false);
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isPlayerReady, setIsPlayerReady] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -169,6 +170,7 @@ export default function Hero() {
     const setPlayingState = (nextValue) => {
       isPlayingRef.current = nextValue;
       setIsPlaying(nextValue);
+      setShowPlayHint(!nextValue);
     };
 
     const attemptPlay = () => {
@@ -205,6 +207,7 @@ export default function Hero() {
           onReady: (event) => {
             if (cancelled) return;
             setIsPlayerReady(true);
+            setShowPlayHint(true);
             try {
               event.target.setVolume(100);
             } catch {}
@@ -354,6 +357,12 @@ export default function Hero() {
           Ruling the kingdom with power, loyalty, and fear for the past 5 years.
         </p>
         <div className="hero-music-mini">
+          {showPlayHint && isPlayerReady && (
+            <div className="hero-music-hint" aria-hidden="true">
+              <span className="hero-music-hint__text">Click to Play</span>
+              <span className="hero-music-hint__arrow"></span>
+            </div>
+          )}
           <div className={`hero-music-wave ${isPlaying ? 'is-active' : ''}`} aria-hidden="true">
             {Array.from({ length: 8 }).map((_, idx) => (
               <span
