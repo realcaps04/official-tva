@@ -1,10 +1,17 @@
 import { useState, useEffect, useRef } from 'react';
 import './Hero.css';
 
+const YOUTUBE_VIDEO_ID = 'KIBfEONu9zA';
+
 export default function Hero() {
   const canvasRef = useRef(null);
   const glitchRef = useRef(null);
+  const playerRef = useRef(null);
+  const playerHostRef = useRef(null);
+  const userPausedRef = useRef(false);
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [isPlayerReady, setIsPlayerReady] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(false);
 
   // Array of banner images (configured for up to 20 paths)
   const bannerImages = [
@@ -155,6 +162,130 @@ export default function Hero() {
     return () => clearInterval(timer);
   }, [bannerImages.length]);
 
+  useEffect(() => {
+    let cancelled = false;
+
+    const attemptPlay = () => {
+      if (!playerRef.current || userPausedRef.current) return;
+      try {
+        playerRef.current.setVolume(100);
+        playerRef.current.playVideo();
+      } catch {}
+    };
+
+    const syncPlayerState = (state) => {
+      if (!window.YT?.PlayerState) return;
+      setIsPlaying(state === window.YT.PlayerState.PLAYING);
+    };
+
+    const mountPlayer = () => {
+      if (cancelled || playerRef.current || !playerHostRef.current || !window.YT?.Player) {
+        return;
+      }
+
+      playerRef.current = new window.YT.Player(playerHostRef.current, {
+        videoId: YOUTUBE_VIDEO_ID,
+        playerVars: {
+          autoplay: 1,
+          controls: 0,
+          disablekb: 1,
+          fs: 0,
+          loop: 1,
+          modestbranding: 1,
+          playsinline: 1,
+          rel: 0,
+          playlist: YOUTUBE_VIDEO_ID,
+        },
+        events: {
+          onReady: (event) => {
+            if (cancelled) return;
+            setIsPlayerReady(true);
+            attemptPlay();
+          },
+          onStateChange: (event) => {
+            if (cancelled) return;
+            syncPlayerState(event.data);
+
+            if (
+              window.YT?.PlayerState &&
+              event.data === window.YT.PlayerState.UNSTARTED
+            ) {
+              setIsPlaying(false);
+            }
+
+            if (
+              window.YT?.PlayerState &&
+              event.data === window.YT.PlayerState.PAUSED
+            ) {
+              setIsPlaying(false);
+            }
+          },
+          onError: () => {
+            if (cancelled) return;
+            setIsPlaying(false);
+          },
+        },
+      });
+    };
+
+    const loadYoutubePlayer = () => {
+      if (window.YT?.Player) {
+        mountPlayer();
+        return;
+      }
+
+      const existingScript = document.querySelector('script[data-youtube-player="true"]');
+      if (!existingScript) {
+        const script = document.createElement('script');
+        script.src = 'https://www.youtube.com/iframe_api';
+        script.async = true;
+        script.dataset.youtubePlayer = 'true';
+        document.body.appendChild(script);
+      }
+
+      const previousReady = window.onYouTubeIframeAPIReady;
+      window.onYouTubeIframeAPIReady = () => {
+        previousReady?.();
+        mountPlayer();
+      };
+    };
+
+    loadYoutubePlayer();
+
+    const unlockPlayback = () => {
+      attemptPlay();
+    };
+
+    window.addEventListener('pointerdown', unlockPlayback, { passive: true });
+    window.addEventListener('keydown', unlockPlayback);
+    document.addEventListener('visibilitychange', unlockPlayback);
+
+    return () => {
+      cancelled = true;
+      window.removeEventListener('pointerdown', unlockPlayback);
+      window.removeEventListener('keydown', unlockPlayback);
+      document.removeEventListener('visibilitychange', unlockPlayback);
+      if (playerRef.current?.destroy) {
+        playerRef.current.destroy();
+      }
+      playerRef.current = null;
+    };
+  }, []);
+
+  const handleMusicToggle = () => {
+    if (!playerRef.current || !window.YT?.PlayerState) return;
+
+    if (isPlaying) {
+      userPausedRef.current = true;
+      playerRef.current.pauseVideo();
+      setIsPlaying(false);
+      return;
+    }
+
+    userPausedRef.current = false;
+    playerRef.current.playVideo();
+  };
+
   return (
     <section className="hero" id="home">
       {/* Premium layered background */}
@@ -225,6 +356,39 @@ export default function Hero() {
           Legacy is built, <em>not earned.</em><br />
           Ruling the kingdom with power, loyalty, and fear for the past 5 years.
         </p>
+        <div className="hero-music-mini">
+          <div className={`hero-music-wave ${isPlaying ? 'is-active' : ''}`} aria-hidden="true">
+            {Array.from({ length: 8 }).map((_, idx) => (
+              <span
+                key={idx}
+                className="hero-music-wave__bar"
+                style={{ animationDelay: `${idx * 0.12}s` }}
+              ></span>
+            ))}
+          </div>
+          <button
+            type="button"
+            className={`hero-music-mini__button ${isPlaying ? 'is-playing' : ''}`}
+            onClick={handleMusicToggle}
+            disabled={!isPlayerReady}
+            aria-label={isPlaying ? 'Pause music' : 'Play music'}
+            title={isPlaying ? 'Pause music' : 'Play music'}
+          >
+            {isPlaying ? (
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <rect x="6" y="5" width="4" height="14" rx="1"></rect>
+                <rect x="14" y="5" width="4" height="14" rx="1"></rect>
+              </svg>
+            ) : (
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path d="M8 5v14l11-7z"></path>
+              </svg>
+            )}
+          </button>
+          <div className="hero-music-player-shell" aria-hidden="true">
+            <div ref={playerHostRef}></div>
+          </div>
+        </div>
         <div className="hero-buttons">
           <a href="#highlights" className="btn btn-primary">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>

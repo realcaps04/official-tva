@@ -6,9 +6,27 @@ export const members = [
     instagram: 'https://www.instagram.com/eagle.gamingop?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==',
     image: '/images/eagle_gaming.jpg'
   },
-  { initial: 'C', name: 'Chandra Boss', role: 'Co-Leader' },
-  { initial: 'A', name: 'Ap Pappan', role: 'Co-Leader' },
-  { initial: 'M', name: 'Madara Uchiha', role: 'Member' },
+  {
+    initial: 'C',
+    name: 'Chandra Boss',
+    role: 'Co-Leader',
+    instagram: 'https://www.instagram.com/dreamerop?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==',
+    image: '/images/chandra_boss.jpg'
+  },
+  {
+    initial: 'A',
+    name: 'Ap Pappan',
+    role: 'Co-Leader',
+    instagram: 'https://www.instagram.com/ig_bravoo?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==',
+    image: '/images/ap_pappan.jpg'
+  },
+  {
+    initial: 'M',
+    name: 'Madara Uchiha',
+    role: 'Member',
+    instagram: 'https://www.instagram.com/ig.rhaegar?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==',
+    image: '/images/madara_uchiha.jpg'
+  },
   { initial: 'B', name: 'Babu Namboothiri', role: 'Undeclared Co leader' },
   { initial: 'S', name: 'Snipe', role: 'Member' },
   { initial: 'J', name: 'Juggru', role: 'Member' },

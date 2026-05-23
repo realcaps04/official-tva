@@ -362,6 +362,88 @@
   font-weight: 500;
 }
 
+.hero-music-mini {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 12px;
+  align-items: center;
+  margin: 2px 0 28px;
+  padding-right: 4vw;
+}
+
+.hero-music-wave {
+  display: flex;
+  align-items: flex-end;
+  gap: 4px;
+  height: 18px;
+}
+
+.hero-music-wave__bar {
+  width: 3px;
+  height: 8px;
+  border-radius: 999px;
+  background: linear-gradient(180deg, var(--accent-blue-light), var(--accent-red));
+  opacity: 0.32;
+  animation: musicWave 1.1s ease-in-out infinite;
+  animation-play-state: paused;
+  transform-origin: bottom center;
+}
+
+.hero-music-wave.is-active .hero-music-wave__bar {
+  opacity: 1;
+  animation-play-state: running;
+  box-shadow: 0 0 10px rgba(230, 57, 70, 0.14);
+}
+
+@keyframes musicWave {
+  0%, 100% { transform: scaleY(0.55); }
+  50% { transform: scaleY(1.8); }
+}
+
+.hero-music-mini__button {
+  border-radius: 999px;
+  width: 38px;
+  height: 38px;
+  padding: 0;
+  border: none;
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--text-primary);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.hero-music-mini__button:hover:not(:disabled) {
+  transform: translateY(-1px);
+  background: rgba(230, 57, 70, 0.14);
+}
+
+.hero-music-mini__button.is-playing {
+  background: rgba(230, 57, 70, 0.9);
+  color: #ffffff;
+  box-shadow: 0 0 18px rgba(230, 57, 70, 0.28);
+}
+
+.hero-music-mini__button:disabled {
+  opacity: 0.55;
+  cursor: wait;
+}
+
+.hero-music-player-shell {
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  opacity: 0;
+  pointer-events: none;
+  position: absolute;
+  left: -9999px;
+  top: 0;
+}
+
 .hero-buttons {
   display: flex;
   gap: 18px;
@@ -416,6 +498,11 @@
 
 /* ========== RESPONSIVE ========== */
 @media (max-width: 768px) {
+  .hero-music-mini {
+    justify-content: center;
+    padding-right: 0;
+  }
+
   .hero-logo-wrapper {
     max-width: 400px;
   }
@@ -427,6 +514,10 @@
 }
 
 @media (max-width: 480px) {
+  .hero-music-mini {
+    gap: 10px;
+  }
+
   .hero-buttons {
     flex-direction: column;
     align-items: center;
