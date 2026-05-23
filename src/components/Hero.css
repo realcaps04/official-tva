@@ -428,6 +428,11 @@
   box-shadow: 0 0 18px rgba(230, 57, 70, 0.28);
 }
 
+.hero-music-mini__button.is-playing:hover:not(:disabled) {
+  background: rgba(230, 57, 70, 0.9);
+  color: #ffffff;
+}
+
 .hero-music-mini__button:disabled {
   opacity: 0.55;
   cursor: wait;
