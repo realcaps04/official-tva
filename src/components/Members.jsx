@@ -1,16 +1,9 @@
 import { useEffect, useRef } from 'react';
+import { Link } from 'react-router-dom';
+import { members } from '../data/members';
 import './Members.css';
 
-const members = [
-  { initial: 'K', name: 'Kairo', role: 'Founder / OG' },
-  { initial: 'V', name: 'Venom', role: 'Warlord' },
-  { initial: 'R', name: 'Reaper', role: 'Enforcer' },
-  { initial: 'S', name: 'Shadow', role: 'Strategist' },
-  { initial: 'B', name: 'Blaze', role: 'Driver' },
-  { initial: 'N', name: 'Nova', role: 'Hacker' },
-];
-
-export default function Members() {
+export default function Members({ limit, showViewAll }) {
   const sectionRef = useRef(null);
 
   useEffect(() => {
@@ -30,6 +23,8 @@ export default function Members() {
     return () => observer.disconnect();
   }, []);
 
+  const displayedMembers = limit ? members.slice(0, limit) : members;
+
   return (
     <section className="members" id="members" ref={sectionRef}>
       <div className="container">
@@ -40,11 +35,11 @@ export default function Members() {
           The faces behind the chaos. Meet the legends who make TVA unstoppable.
         </p>
         <div className="members-grid">
-          {members.map((m, i) => (
+          {displayedMembers.map((m, i) => (
             <div
               className="member-card reveal"
               key={i}
-              style={{ transitionDelay: `${i * 0.08}s` }}
+              style={{ transitionDelay: `${(i % 6) * 0.08}s` }}
             >
               <div className="card-glow"></div>
               <div className="member-avatar">{m.initial}</div>
@@ -67,6 +62,14 @@ export default function Members() {
             </div>
           ))}
         </div>
+        
+        {showViewAll && (
+          <div className="members-action reveal" style={{ marginTop: '40px' }}>
+            <Link to="/crew" className="btn btn-primary" style={{ padding: '14px 32px', fontSize: '0.85rem' }}>
+              View All Members
+            </Link>
+          </div>
+        )}
       </div>
     </section>
   );

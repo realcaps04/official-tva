@@ -1,25 +1,20 @@
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import './App.css';
 import Navbar from './components/Navbar';
-import Hero from './components/Hero';
-import About from './components/About';
-import Members from './components/Members';
-import Highlights from './components/Highlights';
-import Games from './components/Games';
-import Community from './components/Community';
 import Footer from './components/Footer';
+import Home from './pages/Home';
+import CrewPage from './pages/CrewPage';
 
 function App() {
   return (
-    <>
+    <Router>
       <Navbar />
-      <Hero />
-      <About />
-      <Members />
-      <Highlights />
-      <Games />
-      <Community />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/crew" element={<CrewPage />} />
+      </Routes>
       <Footer />
-    </>
+    </Router>
   );
 }
 

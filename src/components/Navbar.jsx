@@ -1,4 +1,6 @@
 import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import { HashLink } from 'react-router-hash-link';
 import './Navbar.css';
 
 export default function Navbar() {
@@ -17,17 +19,18 @@ export default function Navbar() {
     <nav className={`navbar ${scrolled ? 'scrolled' : ''}`} id="navbar">
       <div className="nav-container">
         {/* Left — Logo */}
-        <a href="#home" className="nav-logo">
+        <Link to="/" className="nav-logo" onClick={closeMenu}>
           <img src="/images/header-logo.png" alt="TVA Logo" className="nav-logo-img" />
-        </a>
+        </Link>
 
         {/* Center — Links */}
         <ul className={`nav-links ${menuOpen ? 'active' : ''}`} id="nav-links">
-          <li><a href="#home" onClick={closeMenu}>Home</a></li>
-          <li><a href="#about" onClick={closeMenu}>About</a></li>
-          <li><a href="#members" onClick={closeMenu}>Crew</a></li>
-          <li><a href="#highlights" onClick={closeMenu}>Highlights</a></li>
-          <li><a href="#games" onClick={closeMenu}>Games</a></li>
+          <li><Link to="/" onClick={closeMenu}>Home</Link></li>
+          <li><HashLink smooth to="/#about" onClick={closeMenu}>About</HashLink></li>
+          <li><HashLink smooth to="/#members" onClick={closeMenu}>Crew</HashLink></li>
+          <li><HashLink smooth to="/#highlights" onClick={closeMenu}>Highlights</HashLink></li>
+          <li><HashLink smooth to="/#games" onClick={closeMenu}>Games</HashLink></li>
+          <li><HashLink smooth to="/#tournaments" onClick={closeMenu}>Tournaments</HashLink></li>
         </ul>
 
         {/* Right — CTA */}
@@ -39,9 +42,9 @@ export default function Navbar() {
               <p>Regards, developer <a href="https://www.instagram.com/caps_real_?igsh=MW5majV6b3c0cHY0Yg==" target="_blank" rel="noreferrer" className="dev-ig-link">Caps</a></p>
             </div>
           </div>
-          <a href="#community" className="btn btn-primary nav-cta">
+          <HashLink smooth to="/#community" className="btn btn-primary nav-cta">
             Join Us
-          </a>
+          </HashLink>
           <div
             className={`hamburger ${menuOpen ? 'active' : ''}`}
             onClick={() => setMenuOpen(!menuOpen)}

@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom';
+import { HashLink } from 'react-router-hash-link';
 import './Footer.css';
 
 export default function Footer() {
@@ -6,9 +8,9 @@ export default function Footer() {
       <div className="container">
         <div className="footer-grid">
           <div className="footer-brand">
-            <a href="#" className="footer-logo">
+            <Link to="/" className="footer-logo">
               <img src="/images/header-logo.png" alt="TVA Logo" style={{ height: '48px', objectFit: 'contain' }} />
-            </a>
+            </Link>
             <p>
               The ultimate page for the TVA Family. Dominating GTA RP and every game we touch. Built by fans, for the family.
             </p>
@@ -16,10 +18,10 @@ export default function Footer() {
           <div className="footer-col">
             <h4>Quick Links</h4>
             <ul>
-              <li><a href="#about">About</a></li>
-              <li><a href="#members">Crew</a></li>
-              <li><a href="#highlights">Highlights</a></li>
-              <li><a href="#games">Games</a></li>
+              <li><HashLink smooth to="/#about">About</HashLink></li>
+              <li><HashLink smooth to="/#members">Crew</HashLink></li>
+              <li><HashLink smooth to="/#highlights">Highlights</HashLink></li>
+              <li><HashLink smooth to="/#games">Games</HashLink></li>
             </ul>
           </div>
           <div className="footer-col">
@@ -31,9 +33,15 @@ export default function Footer() {
               <li><a href="#">Twitter / X</a></li>
             </ul>
           </div>
+          <div className="footer-col">
+            <h4>Developer</h4>
+            <ul>
+              <li><a href="#">Why I built ?</a></li>
+            </ul>
+          </div>
         </div>
         <div className="footer-bottom">
-          <p>&copy; 2025 TVA Gang. Fan Page — Not officially affiliated.</p>
+          <p>&copy; 2026 TVA Family all rights reserved</p>
           <div className="footer-bottom-links">
             <a href="#">Privacy</a>
             <a href="#">Terms</a>
