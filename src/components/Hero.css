@@ -408,18 +408,19 @@
   height: 38px;
   padding: 0;
   border: none;
-  background: rgba(255, 255, 255, 0.06);
-  color: var(--text-primary);
+  background: rgba(230, 57, 70, 0.9);
+  color: #ffffff;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   transition: all var(--transition-fast);
+  box-shadow: 0 0 18px rgba(230, 57, 70, 0.28);
 }
 
 .hero-music-mini__button:hover:not(:disabled) {
   transform: translateY(-1px);
-  background: rgba(230, 57, 70, 0.14);
+  background: rgba(230, 57, 70, 0.9);
 }
 
 .hero-music-mini__button.is-playing {
