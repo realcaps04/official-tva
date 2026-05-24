@@ -1,0 +1,206 @@
+.highlights-page {
+  min-height: 100vh;
+  padding-bottom: 80px;
+}
+
+/* Hero Banner */
+.highlights-page-hero {
+  position: relative;
+  overflow: hidden;
+  padding: 100px 0 60px;
+  text-align: center;
+  background: linear-gradient(180deg, rgba(230, 57, 70, 0.04) 0%, transparent 100%);
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.highlights-page-orb {
+  position: absolute;
+  width: 500px;
+  height: 500px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(230, 57, 70, 0.07) 0%, transparent 65%);
+  filter: blur(80px);
+  pointer-events: none;
+  top: -100px;
+  left: -100px;
+}
+
+.highlights-page-orb2 {
+  position: absolute;
+  width: 400px;
+  height: 400px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(67, 97, 238, 0.06) 0%, transparent 65%);
+  filter: blur(80px);
+  pointer-events: none;
+  bottom: -50px;
+  right: -80px;
+}
+
+.highlights-page-title {
+  font-family: 'Orbitron', sans-serif;
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-weight: 900;
+  letter-spacing: 2px;
+  margin-bottom: 16px;
+  position: relative;
+  z-index: 1;
+}
+
+.highlights-page-subtitle {
+  color: var(--text-secondary);
+  font-size: 1rem;
+  max-width: 520px;
+  margin: 0 auto;
+  line-height: 1.7;
+  position: relative;
+  z-index: 1;
+}
+
+/* Content Grid */
+.highlights-page-content {
+  padding-top: 60px;
+  max-width: 1280px;
+}
+
+.highlights-page-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 32px;
+}
+
+/* Card */
+.highlights-page-card {
+  border-radius: var(--radius-lg);
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  overflow: hidden;
+  text-decoration: none;
+  color: var(--text-primary);
+  transition: all 0.3s ease;
+  display: block;
+}
+
+.highlights-page-card:hover {
+  transform: translateY(-8px);
+  border-color: rgba(230, 57, 70, 0.25);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4), 0 0 30px rgba(230, 57, 70, 0.06);
+}
+
+/* Thumbnail */
+.highlights-page-thumb {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  background: var(--bg-tertiary);
+}
+
+.highlights-page-img {
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  transition: transform 0.4s ease;
+}
+
+.highlights-page-card:hover .highlights-page-img {
+  transform: scale(1.06);
+}
+
+/* Play Button */
+.highlights-page-play {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: rgba(230, 57, 70, 0.85);
+  box-shadow: 0 0 30px rgba(230, 57, 70, 0.4);
+  backdrop-filter: blur(4px);
+  transition: all 0.3s ease;
+}
+
+.highlights-page-play::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 53%;
+  transform: translate(-50%, -50%);
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 10px 0 10px 18px;
+  border-color: transparent transparent transparent #fff;
+}
+
+.highlights-page-card:hover .highlights-page-play {
+  background: var(--accent-red);
+  transform: translate(-50%, -50%) scale(1.1);
+  box-shadow: 0 0 45px rgba(230, 57, 70, 0.6);
+}
+
+/* Badge */
+.highlights-page-badge {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  background: #ff0000;
+  color: #fff;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  padding: 3px 10px;
+  border-radius: 4px;
+  text-transform: uppercase;
+}
+
+/* Info */
+.highlights-page-info {
+  padding: 20px 22px 22px;
+}
+
+.highlights-page-card-title {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.82rem;
+  font-weight: 600;
+  line-height: 1.5;
+  letter-spacing: 0.3px;
+  margin-bottom: 12px;
+  color: var(--text-primary);
+}
+
+.highlights-page-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.highlights-page-channel {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+}
+
+.highlights-page-platform {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.75rem;
+  color: #ff4444;
+  font-weight: 500;
+}
+
+@media (max-width: 768px) {
+  .highlights-page-grid {
+    grid-template-columns: 1fr;
+    max-width: 520px;
+    margin: 0 auto;
+  }
+
+  .highlights-page-hero {
+    padding: 80px 0 48px;
+  }
+}

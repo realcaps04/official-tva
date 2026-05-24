@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react';
+import { Link } from 'react-router-dom';
 import './Highlights.css';
 
 const highlights = [
@@ -82,6 +83,15 @@ export default function Highlights() {
               </div>
             </a>
           ))}
+        </div>
+
+        <div className="highlights-view-all reveal" style={{ textAlign: 'center', marginTop: '40px' }}>
+          <Link to="/highlights" className="view-all-btn">
+            View All Highlights
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ marginLeft: '8px' }}>
+              <path d="M5 12h14M12 5l7 7-7 7"/>
+            </svg>
+          </Link>
         </div>
       </div>
     </section>
