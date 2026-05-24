@@ -4,6 +4,7 @@ import Members from '../components/Members';
 import Highlights from '../components/Highlights';
 import Games from '../components/Games';
 import Community from '../components/Community';
+import Chatbot from '../components/Chatbot';
 
 export default function Home() {
   return (
@@ -14,6 +15,7 @@ export default function Home() {
       <Highlights />
       <Games />
       <Community />
+      <Chatbot />
     </>
   );
 }
