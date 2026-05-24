@@ -37,7 +37,7 @@ function getBotReply(step, userName, userText, optionId) {
     return { id: Date.now() + 'b', from: 'bot', text: 'What else can I help you with?', options: MAIN_OPTIONS };
   }
   if (step === STEP.IDLE) {
-    return { id: Date.now() + 'b', from: 'bot', text: 'Please share your name —', nextStep: STEP.ASK_NAME };
+    return { id: Date.now() + 'b', from: 'bot', text: 'Please share your name ', nextStep: STEP.ASK_NAME };
   }
   if (step === STEP.ASK_NAME) {
     const name = userText.trim() || 'Stranger';
