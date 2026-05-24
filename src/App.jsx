@@ -8,6 +8,7 @@ import KvaPage from './pages/KvaPage';
 import HighlightsPage from './pages/HighlightsPage';
 import TournamentsPage from './pages/TournamentsPage';
 import TournamentDetailPage from './pages/TournamentDetailPage';
+import OurStuffPage from './pages/OurStuffPage';
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
         <Route path="/highlights" element={<HighlightsPage />} />
         <Route path="/tournaments" element={<TournamentsPage />} />
         <Route path="/tournaments/:id" element={<TournamentDetailPage />} />
+        <Route path="/our-stuff" element={<OurStuffPage />} />
       </Routes>
       <Footer />
     </Router>
