@@ -174,10 +174,6 @@ export default function TournamentsPage() {
         {/* Live */}
         {live.length > 0 && (
           <section className="tp-section">
-            <div className="tp-section-head">
-              <span className="tp-section-pill live">🔴 Live Now</span>
-              <h2 className="tp-section-title">Live Tournaments</h2>
-            </div>
             <div className="tp-grid">
               {live.map((t) => (
                 <CompletedCard key={t.id} t={t} game={gameMap[t.gameId]}
@@ -190,10 +186,6 @@ export default function TournamentsPage() {
         {/* Completed */}
         {completed.length > 0 && (
           <section className="tp-section">
-            <div className="tp-section-head">
-              <span className="tp-section-pill done">✅ Completed</span>
-              <h2 className="tp-section-title">Past Tournaments</h2>
-            </div>
             <div className="tp-grid">
               {completed.map((t) => (
                 <CompletedCard key={t.id} t={t} game={gameMap[t.gameId]}
@@ -206,10 +198,6 @@ export default function TournamentsPage() {
         {/* Upcoming */}
         {upcoming.length > 0 && (
           <section className="tp-section">
-            <div className="tp-section-head">
-              <span className="tp-section-pill coming">🔥 Coming Soon</span>
-              <h2 className="tp-section-title">Upcoming Tournaments</h2>
-            </div>
             <div className="tp-grid">
               {upcoming.map((t) => (
                 <UpcomingCard key={t.id} t={t} game={gameMap[t.gameId]} />
@@ -262,7 +250,7 @@ function CompletedCard({ t, game, onClick }) {
 
       {/* Winner */}
       <div className="tp-winner-banner">
-        <span className="tp-winner-crown">👑</span>
+        <span className="tp-winner-crown"><CrownIcon color={t.color} /></span>
         <div className="tp-winner-info">
           <span className="tp-winner-label">Tournament Winner</span>
           <span className="tp-winner-name">{t.winner}</span>
@@ -304,6 +292,24 @@ function UpcomingCard({ t, game }) {
         <p>Details coming soon</p>
       </div>
     </div>
+  );
+}
+
+/* ── Crown SVG Icon ─────────────────────── */
+function CrownIcon({ color }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" width="22" height="22" style={{ flexShrink: 0 }}>
+      <path
+        d="M2 19h20M3 9l4 5 5-8 5 8 4-5-2 10H5L3 9z"
+        stroke={color || '#f4a023'}
+        strokeWidth="1.8"
+        strokeLinejoin="round"
+        strokeLinecap="round"
+      />
+      <circle cx="12" cy="3" r="1.5" fill={color || '#f4a023'} />
+      <circle cx="3"  cy="9" r="1.5" fill={color || '#f4a023'} />
+      <circle cx="21" cy="9" r="1.5" fill={color || '#f4a023'} />
+    </svg>
   );
 }
 

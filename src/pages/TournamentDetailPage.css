@@ -9,7 +9,7 @@
 .tdp-orb2 { width: 400px; height: 400px; background: radial-gradient(circle, rgba(114,9,183,0.07) 0%, transparent 65%); bottom: 200px; left: -80px; }
 
 /* Container */
-.tdp-container { padding-top: 32px; max-width: 1100px; position: relative; z-index: 1; }
+.tdp-container { padding-top: 90px; max-width: 1100px; position: relative; z-index: 1; }
 
 /* Back button */
 .tdp-back {
@@ -44,6 +44,7 @@
 }
 .tdp-game-logo { width: 30px; height: 30px; border-radius: 6px; object-fit: contain; background: rgba(255,255,255,0.07); padding: 3px; }
 .tdp-status-chip {
+  display: inline-flex; align-items: center; gap: 6px;
   font-size: 0.65rem; font-weight: 700; letter-spacing: 1.5px; padding: 5px 14px;
   border-radius: 50px; text-transform: uppercase;
   background: rgba(83,252,24,0.1); border: 1px solid rgba(83,252,24,0.35); color: #53fc18;
@@ -63,7 +64,12 @@
   transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 .tdp-qs:hover { border-color: var(--c); box-shadow: 0 0 20px rgba(var(--cr), 0.1); }
-.tdp-qs-icon  { font-size: 1.4rem; }
+.tdp-qs-icon {
+  display: flex; align-items: center; justify-content: center;
+  width: 40px; height: 40px; border-radius: 10px;
+  background: rgba(var(--cr), 0.1); border: 1px solid rgba(var(--cr), 0.2);
+  color: var(--c);
+}
 .tdp-qs-label { font-size: 0.62rem; color: var(--text-muted); letter-spacing: 1px; text-transform: uppercase; }
 .tdp-qs-value { font-family: 'Orbitron', sans-serif; font-size: 0.82rem; font-weight: 800; color: var(--text-primary); }
 
@@ -77,10 +83,17 @@
   border: 1px solid var(--border-subtle); overflow: hidden;
 }
 .tdp-section-title {
+  display: flex; align-items: center; gap: 10px;
   font-family: 'Orbitron', sans-serif; font-size: 0.75rem; font-weight: 800;
   letter-spacing: 1.5px; text-transform: uppercase; color: var(--text-primary);
   padding: 14px 20px; border-bottom: 1px solid var(--border-subtle);
   background: rgba(255,255,255,0.025);
+}
+.tdp-section-icon {
+  display: flex; align-items: center; justify-content: center;
+  width: 28px; height: 28px; border-radius: 7px; flex-shrink: 0;
+  background: rgba(var(--cr), 0.12); border: 1px solid rgba(var(--cr), 0.25);
+  color: var(--c);
 }
 .tdp-section-body { padding: 18px 20px; }
 .tdp-section-note { font-size: 0.78rem; color: var(--text-muted); line-height: 1.6; margin-bottom: 14px; }
@@ -150,34 +163,101 @@
 
 /* Winner card */
 .tdp-winner-card {
-  position: relative; border-radius: 12px;
-  background: linear-gradient(135deg, rgba(var(--cr), 0.1), rgba(var(--cr), 0.04));
+  position: relative;
+  border-radius: 16px;
+  background: linear-gradient(160deg, rgba(var(--cr), 0.1) 0%, rgba(var(--cr), 0.03) 60%, transparent 100%);
   border: 1px solid rgba(var(--cr), 0.3);
-  padding: 28px; text-align: center; overflow: hidden;
+  padding: 36px 28px 32px;
+  text-align: center;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
+
+/* Background radial glow */
 .tdp-winner-glow {
-  position: absolute; width: 200px; height: 200px; border-radius: 50%;
-  top: -80px; left: 50%; transform: translateX(-50%);
-  filter: blur(50px); pointer-events: none;
+  position: absolute;
+  width: 260px; height: 260px;
+  border-radius: 50%;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  filter: blur(60px);
+  pointer-events: none;
+  opacity: 0.6;
 }
+
+/* Spinning outer ring */
+.tdp-winner-logo-wrap {
+  position: relative;
+  width: 130px; height: 130px;
+  margin: 0 auto 20px;
+  display: flex; align-items: center; justify-content: center;
+  z-index: 1;
+}
+
+/* Breathing glow ring */
+.tdp-winner-logo-wrap::before {
+  content: '';
+  position: absolute;
+  inset: -6px;
+  border-radius: 50%;
+  border: 2px solid rgba(var(--cr), 0.6);
+  animation: breatheRing 2.8s ease-in-out infinite;
+}
+
+/* Outer faint ring */
+.tdp-winner-logo-wrap::after {
+  content: '';
+  position: absolute;
+  inset: -14px;
+  border-radius: 50%;
+  border: 1px solid rgba(var(--cr), 0.2);
+  animation: breatheRing 2.8s ease-in-out infinite 0.4s;
+}
+
+@keyframes breatheRing {
+  0%, 100% { transform: scale(1);   opacity: 0.5; }
+  50%       { transform: scale(1.06); opacity: 1;   }
+}
+
+/* Logo image */
 .tdp-winner-logo {
-  width: 90px; height: 90px; border-radius: 14px;
-  object-fit: contain; background: rgba(0,0,0,0.5);
-  padding: 6px; border: 1px solid rgba(255,255,255,0.12);
-  margin-bottom: 14px; position: relative; z-index: 1;
+  width: 110px; height: 110px;
+  border-radius: 50%;
+  object-fit: contain;
+  background: rgba(0,0,0,0.55);
+  padding: 10px;
+  border: 2px solid rgba(var(--cr), 0.35);
+  position: relative; z-index: 2;
+  animation: floatLogo 3.8s ease-in-out infinite;
+  box-shadow:
+    0 0 0 0 rgba(var(--cr), 0),
+    0 10px 30px rgba(0,0,0,0.5);
 }
+
+@keyframes floatLogo {
+  0%, 100% { transform: translateY(0px);  box-shadow: 0 0 20px rgba(var(--cr), 0.2), 0 10px 30px rgba(0,0,0,0.5); }
+  50%       { transform: translateY(-9px); box-shadow: 0 0 45px rgba(var(--cr), 0.5), 0 18px 40px rgba(0,0,0,0.6); }
+}
+
 .tdp-winner-logo-ph {
-  width: 90px; height: 90px; border-radius: 14px; margin: 0 auto 14px;
-  background: rgba(255,255,255,0.05); border: 1px dashed rgba(255,255,255,0.15);
+  width: 110px; height: 110px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.05);
+  border: 2px dashed rgba(255,255,255,0.15);
   display: flex; align-items: center; justify-content: center;
   font-size: 0.6rem; color: var(--text-muted);
+  position: relative; z-index: 2;
 }
+
 .tdp-winner-label {
-  font-size: 0.65rem; color: var(--text-muted); letter-spacing: 1.5px;
-  text-transform: uppercase; margin-bottom: 6px; position: relative; z-index: 1;
+  font-size: 0.62rem; color: var(--text-muted);
+  letter-spacing: 2px; text-transform: uppercase;
+  margin-bottom: 6px; position: relative; z-index: 1;
 }
 .tdp-winner-name {
-  font-family: 'Orbitron', sans-serif; font-size: 1.2rem; font-weight: 900;
+  font-family: 'Orbitron', sans-serif; font-size: 1.3rem; font-weight: 900;
   letter-spacing: 1px; position: relative; z-index: 1;
 }
 
@@ -195,7 +275,7 @@
 }
 .tdp-prize-row:last-child { border-bottom: none; }
 .tdp-prize-row.first { background: rgba(var(--cr), 0.05); padding: 12px 10px; border-radius: 8px; margin-bottom: 2px; }
-.tdp-prize-icon   { font-size: 1.1rem; flex-shrink: 0; }
+.tdp-prize-icon-wrap { display: flex; align-items: center; justify-content: center; width: 28px; flex-shrink: 0; }
 .tdp-prize-place  { flex: 1; font-size: 0.82rem; color: var(--text-secondary); }
 .tdp-prize-amount { font-family: 'Orbitron', sans-serif; font-size: 0.85rem; font-weight: 800; }
 
@@ -211,7 +291,7 @@
   padding-bottom: 8px; border-bottom: 1px solid; margin-bottom: 8px;
 }
 .tdp-bracket-detail { font-size: 0.78rem; color: var(--text-muted); padding: 3px 0; }
-.tdp-bracket-arrow { text-align: center; font-size: 1.2rem; color: var(--c); opacity: 0.5; }
+.tdp-bracket-arrow { display: flex; justify-content: center; align-items: center; color: var(--c); opacity: 0.4; padding: 4px 0; }
 
 /* Not found */
 .tdp-not-found { min-height: 60vh; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 20px; }
