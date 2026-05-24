@@ -99,7 +99,10 @@
 .os-grid {
   display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px;
 }
-.server-grid { grid-template-columns: repeat(3, 1fr); }
+.server-grid {
+  grid-template-columns: minmax(0, 480px);
+  justify-content: center;
+}
 
 /* Card */
 .os-card {
@@ -182,6 +185,16 @@
   width: 46px; height: 46px; border-radius: 12px; border: 1px solid;
   display: flex; align-items: center; justify-content: center;
 }
+.server-logo-area {
+  display: flex; align-items: center; justify-content: center;
+  height: 120px; border-radius: 14px;
+  background: #000; border: 1px solid rgba(0,170,255,0.2);
+  overflow: hidden; padding: 12px;
+}
+.server-logo-img {
+  max-height: 100%; max-width: 100%;
+  object-fit: contain;
+}
 .server-status-block { display: flex; align-items: center; gap: 7px; }
 .server-status-dot {
   width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0;
@@ -223,8 +236,45 @@
   letter-spacing: 0.8px; text-transform: uppercase;
 }
 
+/* Showcasing Soon */
+.showcasing-soon {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  padding: 80px 20px; text-align: center; gap: 16px;
+  border: 1px dashed var(--border-subtle); border-radius: 20px;
+  background: rgba(255,255,255,0.02);
+  animation: fadeUp 0.4s ease;
+}
+.showcasing-icon {
+  width: 72px; height: 72px; border-radius: 50%; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  background: rgba(230,57,70,0.08); border: 1px solid rgba(230,57,70,0.2);
+  color: rgba(230,57,70,0.6);
+}
+.showcasing-title {
+  font-family: 'Orbitron', sans-serif; font-size: 1.4rem; font-weight: 900;
+  letter-spacing: 2px; color: var(--text-primary);
+}
+.showcasing-sub { font-size: 0.85rem; color: var(--text-muted); max-width: 340px; line-height: 1.7; }
+
+/* Xlantis text logo */
+.xlantis-logo-text {
+  display: flex; flex-direction: column; align-items: center; gap: 6px;
+}
+.xlantis-logo-text > div:first-child {
+  display: flex; align-items: baseline; gap: 0;
+  font-family: 'Orbitron', sans-serif; font-size: 2.4rem; font-weight: 900;
+  letter-spacing: -1px;
+}
+.xlantis-xl, .xlantis-tis { color: #ffffff; }
+.xlantis-an { font-style: italic; }
+.xlantis-sub {
+  font-family: 'Orbitron', sans-serif; font-size: 0.52rem; font-weight: 700;
+  letter-spacing: 4px; color: rgba(255,255,255,0.4); text-transform: uppercase;
+}
+
 /* Responsive */
-@media (max-width: 1100px) { .os-grid { grid-template-columns: repeat(3, 1fr); } .server-grid { grid-template-columns: repeat(2, 1fr); } }
-@media (max-width: 768px)  { .os-tabs { flex-direction: column; } .os-grid { grid-template-columns: repeat(2, 1fr); } .server-grid { grid-template-columns: 1fr; } }
+@media (max-width: 1100px) { .os-grid { grid-template-columns: repeat(3, 1fr); } }
+@media (max-width: 768px)  { .os-tabs { flex-direction: column; } .os-grid { grid-template-columns: repeat(2, 1fr); } }
 @media (max-width: 480px)  { .os-grid { grid-template-columns: 1fr; } }
+
 

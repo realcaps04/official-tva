@@ -3,139 +3,10 @@ import { useNavigate } from 'react-router-dom';
 import './OurStuffPage.css';
 
 /* ── Data ─────────────────────────────────────── */
-const DRESS_ITEMS = [
-  {
-    id: 'd1',
-    name: 'TVA Street Fit',
-    desc: 'Classic black oversized hoodie with red TVA logo print. Standard crew uniform.',
-    colors: ['#1a1a1a', '#e63946', '#ffffff'],
-    tag: 'Crew Uniform',
-  },
-  {
-    id: 'd2',
-    name: 'Savage Drop Tee',
-    desc: 'Drop-shoulder graphic tee worn by Savage. Limited run, red & black colorway.',
-    colors: ['#1a1a1a', '#e63946'],
-    tag: 'Limited',
-  },
-  {
-    id: 'd3',
-    name: 'OG Tracksuit',
-    desc: 'All-black tracksuit with gold trim — the signature look of TVA veterans.',
-    colors: ['#111111', '#d4af37'],
-    tag: 'OG Exclusive',
-  },
-  {
-    id: 'd4',
-    name: 'Demon Edition Jacket',
-    desc: 'Biker-style leather jacket, custom patched with the TVA gang emblem.',
-    colors: ['#0d0d0d', '#7209b7', '#e63946'],
-    tag: 'Gang Edition',
-  },
-  {
-    id: 'd5',
-    name: 'TVA Cap — Black',
-    desc: '6-panel structured cap with embroidered TVA wordmark on the front panel.',
-    colors: ['#111111', '#e63946'],
-    tag: 'Accessory',
-  },
-  {
-    id: 'd6',
-    name: 'Recon Cargo Pants',
-    desc: 'Tactical cargo pants in charcoal grey, standard issue for TVA field ops.',
-    colors: ['#3a3a3a', '#1a1a1a'],
-    tag: 'Crew Uniform',
-  },
-  {
-    id: 'd7',
-    name: 'Warlord Vest',
-    desc: 'Gang colours vest, worn over a plain white tee. Back patch with TVA crest.',
-    colors: ['#1c1c1c', '#f4a023'],
-    tag: 'Gang Edition',
-  },
-  {
-    id: 'd8',
-    name: 'Goku Drip Set',
-    desc: 'Full GTA RP drip set curated by MRZ Goku — joggers, oversized tee & chain.',
-    colors: ['#0d0d0d', '#4361ee', '#ffffff'],
-    tag: 'Member Edition',
-  },
-];
+const DRESS_ITEMS = [];
 
-const VEHICLE_ITEMS = [
-  {
-    id: 'v1',
-    name: 'TVA Crew Stallion',
-    desc: 'Blacked-out Bravado Buffalo S — the primary gang cruiser. Red brake calipers.',
-    type: 'Muscle Car',
-    speed: 92,
-    handling: 78,
-    color: '#e63946',
-  },
-  {
-    id: 'v2',
-    name: 'Savage Hellride',
-    desc: 'Declasse Vigero ZX, full matte black, widebody kit. Driven by Savage TVA.',
-    type: 'Muscle Car',
-    speed: 88,
-    handling: 82,
-    color: '#ff4655',
-  },
-  {
-    id: 'v3',
-    name: 'Demon Blade',
-    desc: 'Western Deathbike — Demon\'s signature two-wheeler. Fastest in the crew.',
-    type: 'Motorcycle',
-    speed: 98,
-    handling: 70,
-    color: '#7209b7',
-  },
-  {
-    id: 'v4',
-    name: 'GodFather Phantom',
-    desc: 'Rolls Royce Phantom custom — Blind Joker\'s vehicle. Maroon with gold trim.',
-    type: 'Luxury',
-    speed: 75,
-    handling: 85,
-    color: '#d4af37',
-  },
-  {
-    id: 'v5',
-    name: 'OG Maverick',
-    desc: 'Vapid Pisswasser Dominator. The original TVA crew car — retro muscle build.',
-    type: 'Muscle Car',
-    speed: 85,
-    handling: 72,
-    color: '#f4a023',
-  },
-  {
-    id: 'v6',
-    name: 'Reaper Superbike',
-    desc: 'Shitzu Hakuchou Drag — tuned for top speed. Used in street racing events.',
-    type: 'Motorcycle',
-    speed: 99,
-    handling: 65,
-    color: '#4361ee',
-  },
-  {
-    id: 'v7',
-    name: 'Convoy Truck',
-    desc: 'HVY Insurgent Pick-Up — crew logistics and heavy operations vehicle.',
-    type: 'Heavy',
-    speed: 68,
-    handling: 60,
-    color: '#555577',
-  },
-  {
-    id: 'v8',
-    name: 'Shadow Runner',
-    desc: 'Principe Deveste Eight, deep ocean blue. Used for night-time crew escapes.',
-    type: 'Supercar',
-    speed: 97,
-    handling: 90,
-    color: '#4cc9f0',
-  },
-];
+const VEHICLE_ITEMS = [];
+
 
 const TABS = [
   { id: 'dress',    label: 'Dress Collections', icon: <DressIcon /> },
@@ -147,39 +18,13 @@ const TABS = [
 const SERVER_ITEMS = [
   {
     id: 's1',
-    name: 'TVA Roleplay',
-    tagline: 'The official TVA GTA RP server. Whitelisted, serious RP.',
+    name: 'Xlantis City',
+    tagline: 'A premium FiveM GTA RP server — home of the TVA gang. Serious roleplay, custom scripts, and a thriving community.',
     status: 'online',
-    players: 64,
-    maxPlayers: 128,
-    framework: 'ESX',
-    tags: ['Whitelisted', 'Serious RP', 'Custom Cars', 'Gang System'],
-    ip: 'connect tva-rp.fivem.net',
-    color: '#e63946',
-  },
-  {
-    id: 's2',
-    name: 'TVA Street Wars',
-    tagline: 'PvP-focused deathmatch & gang war server. No whitelist.',
-    status: 'online',
-    players: 102,
-    maxPlayers: 128,
-    framework: 'vRP',
-    tags: ['Open', 'PvP', 'Gang Wars', 'Deathmatch'],
-    ip: 'connect tva-wars.fivem.net',
-    color: '#f4a023',
-  },
-  {
-    id: 's3',
-    name: 'TVA Dev Server',
-    tagline: 'Private development & testing environment. Staff only.',
-    status: 'offline',
-    players: 0,
-    maxPlayers: 32,
-    framework: 'QBCore',
-    tags: ['Private', 'Staff Only', 'Testing'],
-    ip: 'Private',
-    color: '#7209b7',
+    logo: '/images/xlantis_logo.png',
+    tags: ['FiveM', 'GTA RP', 'Custom Scripts', 'Whitelisted', 'TVA Official'],
+    color: '#00aaff',
+    colorRgb: '0,170,255',
   },
 ];
 
@@ -235,22 +80,14 @@ export default function OurStuffPage() {
         {/* Dress Collections */}
         {activeTab === 'dress' && (
           <div className="os-section">
-            <div className="os-grid dress-grid">
-              {DRESS_ITEMS.map(item => (
-                <DressCard key={item.id} item={item} />
-              ))}
-            </div>
+            <ShowcasingSoon label="Dress Collections" />
           </div>
         )}
 
         {/* Gang Vehicles */}
         {activeTab === 'vehicles' && (
           <div className="os-section">
-            <div className="os-grid vehicle-grid">
-              {VEHICLE_ITEMS.map(item => (
-                <VehicleCard key={item.id} item={item} />
-              ))}
-            </div>
+            <ShowcasingSoon label="Gang Vehicles" />
           </div>
         )}
 
@@ -330,71 +167,57 @@ function VehicleCard({ item }) {
   );
 }
 
+/* ── Showcasing Soon placeholder ───────────────── */
+function ShowcasingSoon({ label }) {
+  return (
+    <div className="showcasing-soon">
+      <div className="showcasing-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" width="38" height="38">
+          <circle cx="12" cy="12" r="10"/>
+          <polyline points="12 6 12 12 16 14"/>
+        </svg>
+      </div>
+      <h3 className="showcasing-title">Showcasing Soon!</h3>
+      <p className="showcasing-sub">The {label} collection is being curated. Check back soon.</p>
+    </div>
+  );
+}
+
 /* ── Server Card ──────────────────────────────── */
 function ServerCard({ item }) {
   const isOnline = item.status === 'online';
-  const pct = Math.round((item.players / item.maxPlayers) * 100);
   return (
     <div className={`os-card server-card ${!isOnline ? 'offline' : ''}`} style={{ '--vc': item.color }}>
       <div className="vehicle-glow" style={{ background: `radial-gradient(circle, ${item.color}22 0%, transparent 70%)` }} />
 
-      {/* Header */}
-      <div className="server-header">
-        <div className="server-icon-wrap" style={{ borderColor: `${item.color}55`, background: `${item.color}18`, color: item.color }}>
-          <ServerIcon large />
+      {/* Logo text badge */}
+      <div className="server-logo-area">
+        <div className="xlantis-logo-text">
+          <div>
+            <span className="xlantis-xl">XL</span><span className="xlantis-an" style={{ color: item.color }}>AN</span><span className="xlantis-tis">TIS</span>
+          </div>
+          <div className="xlantis-sub">XLANTIS CITY</div>
         </div>
-        <div className="server-status-block">
-          <span className={`server-status-dot ${isOnline ? 'online' : 'offline'}`} />
-          <span className="server-status-label">{isOnline ? 'Online' : 'Offline'}</span>
-        </div>
+      </div>
+
+      {/* Status dot */}
+      <div className="server-status-block">
+        <span className={`server-status-dot ${isOnline ? 'online' : 'offline'}`} />
+        <span className="server-status-label">{isOnline ? 'Online' : 'Offline'}</span>
       </div>
 
       {/* Info */}
       <div className="os-card-info">
-        <div className="server-framework" style={{ color: item.color }}>{item.framework}</div>
-        <h3 className="os-card-title">{item.name}</h3>
+        <h3 className="os-card-title" style={{ color: item.color }}>{item.name}</h3>
         <p className="os-card-desc">{item.tagline}</p>
       </div>
 
       {/* Tags */}
       <div className="server-tags">
         {item.tags.map(t => (
-          <span key={t} className="server-tag">{t}</span>
+          <span key={t} className="server-tag" style={{ borderColor: `${item.color}33`, color: item.color, background: `${item.color}10` }}>{t}</span>
         ))}
       </div>
-
-      {/* Players bar */}
-      <div className="server-players">
-        <div className="server-players-top">
-          <span className="server-players-label">Players</span>
-          <span className="server-players-count" style={{ color: isOnline ? item.color : 'var(--text-muted)' }}>
-            {item.players} / {item.maxPlayers}
-          </span>
-        </div>
-        <div className="stat-track">
-          <div className="stat-fill" style={{ width: `${pct}%`, background: item.color }} />
-        </div>
-      </div>
-
-      {/* Join button */}
-      {isOnline ? (
-        <button className="server-join-btn" style={{ '--vc': item.color }}
-          onClick={() => navigator.clipboard?.writeText(item.ip)}>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" width="14" height="14">
-            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
-            <polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/>
-          </svg>
-          Copy IP to Connect
-        </button>
-      ) : (
-        <div className="server-offline-btn">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" width="13" height="13">
-            <line x1="1" y1="1" x2="23" y2="23"/>
-            <path d="M16.72 11.06A10.94 10.94 0 0 1 19 12.55M5 12.55a10.94 10.94 0 0 1 5.17-2.39M10.71 5.05A16 16 0 0 1 22.56 9M1.42 9a15.91 15.91 0 0 1 4.7-2.88M8.53 16.11a6 6 0 0 1 6.95 0M12 20h.01"/>
-          </svg>
-          Server Offline
-        </div>
-      )}
     </div>
   );
 }
