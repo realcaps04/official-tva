@@ -9,8 +9,8 @@
 @keyframes trmFade { from { opacity: 0 } to { opacity: 1 } }
 
 .trm-modal {
-  width: min(720px, 100%);
-  max-height: min(92vh, 820px);
+  width: min(800px, 100%);
+  max-height: min(92vh, 900px);
   overflow-y: auto;
   background: #0c0e18;
   border: 1px solid rgba(var(--cr), 0.35);
@@ -120,6 +120,24 @@
   font-size: 0.62rem; font-weight: 700; letter-spacing: 1.2px;
   text-transform: uppercase; color: var(--c);
 }
+.trm-hint {
+  margin: -4px 0 0;
+  font-size: 0.7rem; color: rgba(255,255,255,0.4); line-height: 1.4;
+}
+.trm-member {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 10px;
+  padding: 10px 12px 12px;
+}
+.trm-member-head {
+  font-size: 0.62rem; font-weight: 700; letter-spacing: 1px;
+  text-transform: uppercase; color: rgba(255,255,255,0.5);
+  margin-bottom: 8px;
+}
+.trm-member-grid {
+  display: grid; grid-template-columns: 1.1fr 1fr 1fr; gap: 10px;
+}
 .trm-field { display: flex; flex-direction: column; gap: 5px; }
 .trm-field span {
   font-size: 0.62rem; font-weight: 600; letter-spacing: 0.4px;
@@ -178,6 +196,11 @@
 }
 .trm-success .trm-submit { width: 100%; max-width: 220px; }
 
+@media (max-width: 640px) {
+  .trm-grid { grid-template-columns: 1fr; }
+  .trm-member-grid { grid-template-columns: 1fr; }
+  .trm-facts { grid-template-columns: 1fr 1fr; }
+}
 @media (max-width: 520px) {
   .trm-grid { grid-template-columns: 1fr; }
   .trm-facts { grid-template-columns: 1fr 1fr; }

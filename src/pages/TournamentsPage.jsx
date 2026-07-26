@@ -63,7 +63,7 @@ export const TOURNAMENTS = [
     gameId: 'gta',
     status: 'upcoming',
     title: 'GTA RP – Powered by TVA & Xlantis',
-    subtitle: 'Xlantis City Street Racing',
+    subtitle: 'Xlantis City PVP Tournament',
     year: '2026',
     prizePool: '₹1,00,000',
     format: 'Crew Racing',

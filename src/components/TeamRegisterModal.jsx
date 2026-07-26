@@ -1,29 +1,57 @@
 import { useEffect, useState } from 'react';
 import './TeamRegisterModal.css';
 
+const EMPTY_MEMBER = { name: '', discord: '', phone: '' };
+
 const EMPTY = {
   teamName: '',
   captainName: '',
-  discord: '',
-  phone: '',
-  member1: '',
-  member2: '',
-  member3: '',
-  member4: '',
+  members: [
+    { ...EMPTY_MEMBER },
+    { ...EMPTY_MEMBER },
+    { ...EMPTY_MEMBER },
+    { ...EMPTY_MEMBER },
+  ],
 };
+
+/** Indian mobile: 10 digits starting 6–9; allows +91 / 91 / 0 prefix */
+function isValidIndianPhone(phone) {
+  const digits = String(phone).replace(/\D/g, '');
+  let n = digits;
+  if (n.length === 12 && n.startsWith('91')) n = n.slice(2);
+  if (n.length === 11 && n.startsWith('0')) n = n.slice(1);
+  return /^[6-9]\d{9}$/.test(n);
+}
+
+function normalizeIndianPhone(phone) {
+  const digits = String(phone).replace(/\D/g, '');
+  let n = digits;
+  if (n.length === 12 && n.startsWith('91')) n = n.slice(2);
+  if (n.length === 11 && n.startsWith('0')) n = n.slice(1);
+  return n;
+}
 
 export default function TeamRegisterModal({ tournament: t, game, onClose }) {
   const [form, setForm] = useState(EMPTY);
   const [error, setError] = useState('');
   const [done, setDone] = useState(false);
+
   useEffect(() => {
     const prev = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
     return () => { document.body.style.overflow = prev; };
   }, []);
 
-  function setField(key, value) {
+  function setTeamField(key, value) {
     setForm((f) => ({ ...f, [key]: value }));
+    setError('');
+  }
+
+  function setMemberField(index, key, value) {
+    setForm((f) => {
+      const members = f.members.map((m, i) => (i === index ? { ...m, [key]: value } : m));
+      return { ...f, members };
+    });
     setError('');
   }
 
@@ -31,12 +59,43 @@ export default function TeamRegisterModal({ tournament: t, game, onClose }) {
     e.preventDefault();
     if (!form.teamName.trim()) { setError('Enter your crew / team name.'); return; }
     if (!form.captainName.trim()) { setError('Enter the captain name.'); return; }
-    if (!form.discord.trim()) { setError('Enter a Discord username.'); return; }
-    if (!form.phone.trim()) { setError('Enter a WhatsApp / phone number.'); return; }
-    if (!form.member1.trim()) { setError('Add at least one driver / member.'); return; }
+
+    const filled = form.members
+      .map((m, i) => ({ ...m, index: i + 1 }))
+      .filter((m) => m.name.trim() || m.discord.trim() || m.phone.trim());
+
+    if (filled.length === 0 || !form.members[0].name.trim()) {
+      setError('Add at least Member 1 with name, Discord, and phone.');
+      return;
+    }
+
+    for (const m of filled) {
+      if (!m.name.trim()) {
+        setError(`Member ${m.index}: enter the member name.`);
+        return;
+      }
+      if (!m.discord.trim()) {
+        setError(`Member ${m.index}: enter their Discord username.`);
+        return;
+      }
+      if (!m.phone.trim()) {
+        setError(`Member ${m.index}: enter their Indian phone number.`);
+        return;
+      }
+      if (!isValidIndianPhone(m.phone)) {
+        setError(`Member ${m.index}: enter a valid Indian mobile (10 digits, starts with 6–9).`);
+        return;
+      }
+    }
 
     const entry = {
-      ...form,
+      teamName: form.teamName.trim(),
+      captainName: form.captainName.trim(),
+      members: filled.map((m) => ({
+        name: m.name.trim(),
+        discord: m.discord.trim(),
+        phone: normalizeIndianPhone(m.phone),
+      })),
       tournamentId: t.id,
       tournamentTitle: t.title,
       submittedAt: new Date().toISOString(),
@@ -76,7 +135,6 @@ export default function TeamRegisterModal({ tournament: t, game, onClose }) {
           </button>
         </div>
 
-        {/* Tournament summary */}
         <div className="trm-summary">
           <div className="trm-summary-top">
             <div className="trm-game-pill">
@@ -103,19 +161,41 @@ export default function TeamRegisterModal({ tournament: t, game, onClose }) {
         ) : (
           <form className="trm-form" onSubmit={handleSubmit}>
             <div className="trm-grid">
-              <Field label="Crew / Team Name *" value={form.teamName} onChange={(v) => setField('teamName', v)} placeholder="e.g. Street Kings" />
-              <Field label="Captain Name *" value={form.captainName} onChange={(v) => setField('captainName', v)} placeholder="In-game / RP name" />
-              <Field label="Discord Username *" value={form.discord} onChange={(v) => setField('discord', v)} placeholder="username" />
-              <Field label="WhatsApp / Phone *" value={form.phone} onChange={(v) => setField('phone', v)} placeholder="+91 ..." />
+              <Field label="Crew / Team Name *" value={form.teamName} onChange={(v) => setTeamField('teamName', v)} placeholder="e.g. Street Kings" />
+              <Field label="Captain Name *" value={form.captainName} onChange={(v) => setTeamField('captainName', v)} placeholder="In-game / RP name" />
             </div>
 
             <p className="trm-section-label">Crew Members / Drivers</p>
-            <div className="trm-grid">
-              <Field label="Member 1 *" value={form.member1} onChange={(v) => setField('member1', v)} placeholder="Driver 1" />
-              <Field label="Member 2" value={form.member2} onChange={(v) => setField('member2', v)} placeholder="Driver 2" />
-              <Field label="Member 3" value={form.member3} onChange={(v) => setField('member3', v)} placeholder="Driver 3" />
-              <Field label="Member 4" value={form.member4} onChange={(v) => setField('member4', v)} placeholder="Driver 4" />
-            </div>
+            <p className="trm-hint">Each member needs name, Discord, and a valid Indian mobile (+91 optional).</p>
+
+            {form.members.map((m, i) => (
+              <div key={i} className="trm-member">
+                <div className="trm-member-head">Member {i + 1}{i === 0 ? ' *' : ''}</div>
+                <div className="trm-member-grid">
+                  <Field
+                    label="Name"
+                    value={m.name}
+                    onChange={(v) => setMemberField(i, 'name', v)}
+                    placeholder={`Driver ${i + 1}`}
+                  />
+                  <Field
+                    label="Discord"
+                    value={m.discord}
+                    onChange={(v) => setMemberField(i, 'discord', v)}
+                    placeholder="discord_username"
+                  />
+                  <Field
+                    label="Phone (India)"
+                    value={m.phone}
+                    onChange={(v) => setMemberField(i, 'phone', v)}
+                    placeholder="9876543210"
+                    type="tel"
+                    inputMode="tel"
+                    maxLength={14}
+                  />
+                </div>
+              </div>
+            ))}
 
             {error && <p className="trm-error">{error}</p>}
 
@@ -130,12 +210,14 @@ export default function TeamRegisterModal({ tournament: t, game, onClose }) {
   );
 }
 
-function Field({ label, value, onChange, placeholder }) {
+function Field({ label, value, onChange, placeholder, type = 'text', inputMode, maxLength }) {
   return (
     <label className="trm-field">
       <span>{label}</span>
       <input
-        type="text"
+        type={type}
+        inputMode={inputMode}
+        maxLength={maxLength}
         value={value}
         placeholder={placeholder}
         onChange={(e) => onChange(e.target.value)}
