@@ -135,77 +135,97 @@ export default function TeamRegisterModal({ tournament: t, game, onClose }) {
           </button>
         </div>
 
-        <div className="trm-summary">
-          <div className="trm-summary-top">
-            <div className="trm-game-pill">
-              {game?.logo && <img src={game.logo} alt={game.label} />}
-              <span>{game?.label}</span>
+        <div className="trm-body">
+          <div className="trm-summary">
+            <div className="trm-summary-top">
+              <div className="trm-game-pill">
+                {game?.logo && <img src={game.logo} alt={game.label} />}
+                <span>{game?.label}</span>
+              </div>
+              <span className="trm-status">{t.status === 'upcoming' ? 'UPCOMING' : t.status.toUpperCase()}</span>
             </div>
-            <span className="trm-status">{t.status === 'upcoming' ? 'UPCOMING' : t.status.toUpperCase()}</span>
+            <h3 className="trm-tour-title">{t.title}</h3>
+            <p className="trm-tour-sub">{t.subtitle} · {t.year}</p>
           </div>
-          <h3 className="trm-tour-title">{t.title}</h3>
-          <p className="trm-tour-sub">{t.subtitle} · {t.year}</p>
-        </div>
 
-        {done ? (
-          <div className="trm-success">
-            <div className="trm-success-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" width="28" height="28">
-                <polyline points="20 6 9 17 4 12"/>
+          {done ? (
+            <div className="trm-success">
+              <div className="trm-success-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" width="28" height="28">
+                  <polyline points="20 6 9 17 4 12"/>
+                </svg>
+              </div>
+              <h3>Registration Submitted</h3>
+              <p>Your crew <strong>{form.teamName}</strong> is registered for {t.title}. TVA & Xlantis will contact you on Discord.</p>
+              <button type="button" className="trm-submit" onClick={onClose}>Done</button>
+            </div>
+          ) : (
+            <form className="trm-form" onSubmit={handleSubmit}>
+              <div className="trm-grid">
+                <Field label="Crew / Team Name *" value={form.teamName} onChange={(v) => setTeamField('teamName', v)} placeholder="e.g. Street Kings" />
+                <Field label="Captain Name *" value={form.captainName} onChange={(v) => setTeamField('captainName', v)} placeholder="In-game / RP name" />
+              </div>
+
+              <p className="trm-section-label">Crew Members / Drivers</p>
+              <p className="trm-hint">Each member needs name, Discord, and a valid Indian mobile (+91 optional).</p>
+
+              {form.members.map((m, i) => (
+                <div key={i} className="trm-member">
+                  <div className="trm-member-head">Member {i + 1}{i === 0 ? ' *' : ''}</div>
+                  <div className="trm-member-grid">
+                    <Field
+                      label="Name"
+                      value={m.name}
+                      onChange={(v) => setMemberField(i, 'name', v)}
+                      placeholder={`Driver ${i + 1}`}
+                    />
+                    <Field
+                      label="Discord"
+                      value={m.discord}
+                      onChange={(v) => setMemberField(i, 'discord', v)}
+                      placeholder="discord_username"
+                    />
+                    <Field
+                      label="Phone (India)"
+                      value={m.phone}
+                      onChange={(v) => setMemberField(i, 'phone', v)}
+                      placeholder="9876543210"
+                      type="tel"
+                      inputMode="tel"
+                      maxLength={14}
+                    />
+                  </div>
+                </div>
+              ))}
+
+              <div className="trm-actions">
+                <button type="button" className="trm-cancel" onClick={onClose}>Cancel</button>
+                <button type="submit" className="trm-submit">Register Team</button>
+              </div>
+            </form>
+          )}
+        </div>
+      </div>
+
+      {error && (
+        <div
+          className="trm-alert-overlay"
+          onClick={(e) => { e.stopPropagation(); setError(''); }}
+          role="presentation"
+        >
+          <div className="trm-alert" onClick={(e) => e.stopPropagation()} role="alertdialog" aria-labelledby="trm-alert-msg">
+            <div className="trm-alert-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" width="26" height="26">
+                <circle cx="12" cy="12" r="10"/>
+                <line x1="12" y1="8" x2="12" y2="12"/>
+                <line x1="12" y1="16" x2="12.01" y2="16"/>
               </svg>
             </div>
-            <h3>Registration Submitted</h3>
-            <p>Your crew <strong>{form.teamName}</strong> is registered for {t.title}. TVA & Xlantis will contact you on Discord.</p>
-            <button type="button" className="trm-submit" onClick={onClose}>Done</button>
+            <p id="trm-alert-msg" className="trm-alert-msg">{error}</p>
+            <button type="button" className="trm-alert-btn" onClick={() => setError('')}>OK</button>
           </div>
-        ) : (
-          <form className="trm-form" onSubmit={handleSubmit}>
-            <div className="trm-grid">
-              <Field label="Crew / Team Name *" value={form.teamName} onChange={(v) => setTeamField('teamName', v)} placeholder="e.g. Street Kings" />
-              <Field label="Captain Name *" value={form.captainName} onChange={(v) => setTeamField('captainName', v)} placeholder="In-game / RP name" />
-            </div>
-
-            <p className="trm-section-label">Crew Members / Drivers</p>
-            <p className="trm-hint">Each member needs name, Discord, and a valid Indian mobile (+91 optional).</p>
-
-            {form.members.map((m, i) => (
-              <div key={i} className="trm-member">
-                <div className="trm-member-head">Member {i + 1}{i === 0 ? ' *' : ''}</div>
-                <div className="trm-member-grid">
-                  <Field
-                    label="Name"
-                    value={m.name}
-                    onChange={(v) => setMemberField(i, 'name', v)}
-                    placeholder={`Driver ${i + 1}`}
-                  />
-                  <Field
-                    label="Discord"
-                    value={m.discord}
-                    onChange={(v) => setMemberField(i, 'discord', v)}
-                    placeholder="discord_username"
-                  />
-                  <Field
-                    label="Phone (India)"
-                    value={m.phone}
-                    onChange={(v) => setMemberField(i, 'phone', v)}
-                    placeholder="9876543210"
-                    type="tel"
-                    inputMode="tel"
-                    maxLength={14}
-                  />
-                </div>
-              </div>
-            ))}
-
-            {error && <p className="trm-error">{error}</p>}
-
-            <div className="trm-actions">
-              <button type="button" className="trm-cancel" onClick={onClose}>Cancel</button>
-              <button type="submit" className="trm-submit">Register Team</button>
-            </div>
-          </form>
-        )}
-      </div>
+        </div>
+      )}
     </div>
   );
 }
