@@ -1,6 +1,7 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { TOURNAMENTS, GAMES } from './TournamentsPage';
+import TeamRegisterModal from '../components/TeamRegisterModal';
 import './TournamentDetailPage.css';
 
 const gameMap = Object.fromEntries(GAMES.map((g) => [g.id, g]));
@@ -8,6 +9,7 @@ const gameMap = Object.fromEntries(GAMES.map((g) => [g.id, g]));
 export default function TournamentDetailPage() {
   const { id } = useParams();
   const navigate = useNavigate();
+  const [registerOpen, setRegisterOpen] = useState(false);
   const t = TOURNAMENTS.find((x) => x.id === id);
 
   useEffect(() => { window.scrollTo(0, 0); }, []);
@@ -47,25 +49,53 @@ export default function TournamentDetailPage() {
               {game.logo && <img src={game.logo} alt={game.label} className="tdp-game-logo" />}
               <span style={{ color: t.color }}>{game.label}</span>
             </div>
-            {/* Completed chip — SVG check instead of emoji */}
-            <span className="tdp-status-chip">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" width="13" height="13">
-                <polyline points="20 6 9 17 4 12"/>
-              </svg>
-              COMPLETED
+            {/* Status chip */}
+            <span className={`tdp-status-chip${t.status === 'upcoming' ? ' upcoming' : ''}`}>
+              {t.status === 'completed' ? (
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" width="13" height="13">
+                  <polyline points="20 6 9 17 4 12"/>
+                </svg>
+              ) : (
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" width="13" height="13">
+                  <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+                </svg>
+              )}
+              {t.status === 'completed' ? 'COMPLETED' : t.status === 'live' ? 'LIVE NOW' : 'UPCOMING'}
             </span>
           </div>
 
           <h1 className="tdp-title">{t.title}</h1>
           <p className="tdp-subtitle">{t.subtitle} · {t.year}</p>
 
+          {t.partnerLogo && (
+            <div className="tdp-partners">
+              <span className="tdp-partners-label">Conducted by</span>
+              <div className="tdp-partners-row">
+                <img src="/images/tva-logo.png" alt="TVA" className="tdp-partner-logo" />
+                <span className="tdp-partners-x" style={{ color: t.color }}>×</span>
+                <img src={t.partnerLogo} alt={t.partnerName || 'Partner'} className="tdp-partner-logo light" />
+              </div>
+            </div>
+          )}
+
           {/* Quick stats */}
           <div className="tdp-quick-stats">
             <QuickStat icon={<TrophyIcon />}  label="Prize Pool" value={t.prizePool}           color={t.color} />
-            <QuickStat icon={<TeamsIcon />}   label="Teams"      value={`${t.teams} Squads`}   color={t.color} />
+            <QuickStat icon={<TeamsIcon />}   label="Teams"      value={`${t.teams} ${t.gameId === 'gta' ? 'Crews' : 'Squads'}`}   color={t.color} />
             <QuickStat icon={<GamepadIcon />} label="Format"     value={t.format}              color={t.color} />
             <QuickStat icon={<GlobeIcon />}   label="Region"     value={t.region}              color={t.color} />
           </div>
+
+          {t.registrationOpen && (
+            <button type="button" className="tdp-register-btn" onClick={() => setRegisterOpen(true)}>
+              Register a New Team
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
+                <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
+                <circle cx="9" cy="7" r="4"/>
+                <line x1="19" y1="8" x2="19" y2="14"/><line x1="22" y1="11" x2="16" y2="11"/>
+              </svg>
+            </button>
+          )}
         </div>
 
         {/* ── Content grid ────────────────────────── */}
@@ -102,7 +132,7 @@ export default function TournamentDetailPage() {
                 <InfoRow label="Finalists"     value={`${t.finals.teams} teams`} />
                 <InfoRow label="Total matches" value={`${t.finals.matches} matches`} />
               </div>
-              <div className="tdp-label">Map Pool</div>
+              <div className="tdp-label">{t.gameId === 'gta' ? 'Track Pool' : 'Map Pool'}</div>
               <div className="tdp-maps">
                 {t.finals.maps.map((m) => (
                   <span key={m} className="tdp-map-chip">{m}</span>
@@ -141,19 +171,21 @@ export default function TournamentDetailPage() {
           {/* RIGHT */}
           <div className="tdp-col">
 
-            <Section icon={<CrownIcon />} title="Tournament Winner" color={t.color}>
-              <div className="tdp-winner-card">
-                <div className="tdp-winner-glow" style={{ background: `rgba(${t.colorRgb}, 0.25)` }} />
-                <div className="tdp-winner-logo-wrap">
-                  {t.winnerLogo
-                    ? <img src={t.winnerLogo} alt={t.winner} className="tdp-winner-logo" />
-                    : <div className="tdp-winner-logo-ph">LOGO</div>
-                  }
+            {t.winner && (
+              <Section icon={<CrownIcon />} title="Tournament Winner" color={t.color}>
+                <div className="tdp-winner-card">
+                  <div className="tdp-winner-glow" style={{ background: `rgba(${t.colorRgb}, 0.25)` }} />
+                  <div className="tdp-winner-logo-wrap">
+                    {t.winnerLogo
+                      ? <img src={t.winnerLogo} alt={t.winner} className="tdp-winner-logo" />
+                      : <div className="tdp-winner-logo-ph">LOGO</div>
+                    }
+                  </div>
+                  <div className="tdp-winner-label">Champion</div>
+                  <div className="tdp-winner-name" style={{ color: t.color }}>{t.winner}</div>
                 </div>
-                <div className="tdp-winner-label">Champion</div>
-                <div className="tdp-winner-name" style={{ color: t.color }}>{t.winner}</div>
-              </div>
-            </Section>
+              </Section>
+            )}
 
             <Section icon={<PrizeIcon />} title="Prize Distribution" color={t.color}>
               <div className="tdp-total-prize" style={{ borderColor: `rgba(${t.colorRgb}, 0.35)`, background: `rgba(${t.colorRgb}, 0.07)` }}>
@@ -177,9 +209,8 @@ export default function TournamentDetailPage() {
               <div className="tdp-bracket">
                 <div className="tdp-bracket-stage">
                   <div className="tdp-bracket-header" style={{ borderColor: t.color, color: t.color }}>Qualifiers</div>
-                  <div className="tdp-bracket-detail">32 teams → 4 groups (A, B, C, D)</div>
-                  <div className="tdp-bracket-detail">8 teams per group · 5 matches/day</div>
-                  <div className="tdp-bracket-detail">Top 8 per day advance</div>
+                  <div className="tdp-bracket-detail">{t.qualifiers.format}</div>
+                  <div className="tdp-bracket-detail">{t.qualifiers.matchesPerDay} events/day · {t.qualifiers.time}</div>
                 </div>
                 <div className="tdp-bracket-arrow">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" width="18" height="18">
@@ -188,8 +219,10 @@ export default function TournamentDetailPage() {
                 </div>
                 <div className="tdp-bracket-stage">
                   <div className="tdp-bracket-header" style={{ borderColor: '#c77dff', color: '#c77dff' }}>Finals</div>
-                  <div className="tdp-bracket-detail">16 teams · 5 matches total</div>
-                  <div className="tdp-bracket-detail">Maps: Erangel, Miramar, Taego, Rondo</div>
+                  <div className="tdp-bracket-detail">{t.finals.teams} {t.gameId === 'gta' ? 'crews' : 'teams'} · {t.finals.matches} events</div>
+                  {t.finals.maps?.length > 0 && (
+                    <div className="tdp-bracket-detail">{t.gameId === 'gta' ? 'Tracks' : 'Maps'}: {t.finals.maps.join(', ')}</div>
+                  )}
                 </div>
               </div>
             </Section>
@@ -197,6 +230,14 @@ export default function TournamentDetailPage() {
           </div>
         </div>
       </div>
+
+      {registerOpen && (
+        <TeamRegisterModal
+          tournament={t}
+          game={game}
+          onClose={() => setRegisterOpen(false)}
+        />
+      )}
     </div>
   );
 }

@@ -147,8 +147,28 @@
   border-color: rgba(var(--cr), 0.45);
 }
 .tp-card.upcoming {
-  border: 1px solid rgba(70,70,90,0.3);
-  opacity: 0.55; cursor: not-allowed; user-select: none;
+  border: 1px solid rgba(var(--cr), 0.2);
+  cursor: pointer;
+}
+.tp-card.upcoming:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 20px 50px rgba(0,0,0,0.45), 0 0 40px rgba(var(--cr), 0.12);
+  border-color: rgba(var(--cr), 0.45);
+}
+.tp-card.upcoming:hover .tp-card-cta { background: rgba(var(--cr), 0.2); border-color: rgba(var(--cr), 0.5); gap: 8px; }
+
+.tp-card-actions {
+  display: flex; flex-direction: column; gap: 7px;
+  position: relative; z-index: 1;
+}
+.tp-card-cta.register {
+  background: rgba(var(--cr), 0.22);
+  border-color: rgba(var(--cr), 0.55);
+  color: #fff;
+}
+.tp-card.upcoming:hover .tp-card-cta.register {
+  background: rgba(var(--cr), 0.38);
+  border-color: rgba(var(--cr), 0.85);
 }
 
 /* Glow blobs */
@@ -245,6 +265,12 @@
   background: rgba(255,255,255,0.05); border: 1px dashed rgba(255,255,255,0.18);
   display: flex; align-items: center; justify-content: center;
   font-size: 0.48rem; color: var(--text-muted); letter-spacing: 0.5px; text-transform: uppercase;
+}
+.tp-partner-logo {
+  width: 42px; height: 42px; border-radius: 8px;
+  object-fit: contain; background: #fff;
+  padding: 3px; border: 1px solid rgba(0,170,255,0.35);
+  flex-shrink: 0;
 }
 
 /* View details CTA */

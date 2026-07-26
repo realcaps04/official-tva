@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import TeamRegisterModal from '../components/TeamRegisterModal';
 import './TournamentsPage.css';
 
 /* ── Status filter categories ───────────────────── */
@@ -58,31 +59,42 @@ export const TOURNAMENTS = [
     antiCheat: 'eWave AntiCheat System',
   },
   {
-    id: 'valorant-clash',
-    gameId: 'valorant',
-    status: 'upcoming',
-    title: 'TVA Valorant Clash',
-    subtitle: '5v5 Competitive',
-    color: '#ff4655',
-    colorRgb: '255,70,85',
-  },
-  {
-    id: 'gta-grand-prix',
+    id: 'gta-tva-grand-prix-2026',
     gameId: 'gta',
     status: 'upcoming',
-    title: 'TVA RP Grand Prix',
-    subtitle: 'Street Racing & Events',
-    color: '#ff7bff',
-    colorRgb: '255,123,255',
-  },
-  {
-    id: 'pubg-mobile-open',
-    gameId: 'pubg',
-    status: 'upcoming',
-    title: 'TVA PUBG Mobile Open',
-    subtitle: 'Community Open Squads',
-    color: '#f4a023',
-    colorRgb: '244,160,35',
+    title: 'GTA RP – Powered by TVA & Xlantis',
+    subtitle: 'Xlantis City Street Racing',
+    year: '2026',
+    prizePool: '₹1,00,000',
+    format: 'Crew Racing',
+    region: 'Xlantis City',
+    teams: 16,
+    color: '#00aaff',
+    colorRgb: '0,170,255',
+    partnerLogo: '/images/xlantis_logo.png',
+    partnerName: 'Xlantis City',
+    registrationOpen: true,
+    qualifiers: {
+      dates: ['August 8, 2026 (Saturday) – Heats A & B', 'August 9, 2026 (Sunday) – Heats C & D'],
+      time: '21:00 IST',
+      format: '16 crews → 4 heats of 4 → Top 2/heat advance to finals',
+      matchesPerDay: 2,
+    },
+    finals: {
+      date: 'August 10, 2026 (Monday)',
+      time: '21:00 IST',
+      teams: 8,
+      matches: 3,
+      maps: ['Los Santos Circuit', 'Highway Sprint', 'Dockyard Drift'],
+    },
+    platforms: ['Xlantis City FiveM', 'TVA Discord'],
+    prizes: [
+      { place: '1st Place', icon: '🥇', amount: '₹40,000' },
+      { place: '2nd Place', icon: '🥈', amount: '₹30,000' },
+      { place: '3rd Place', icon: '🥉', amount: '₹20,000' },
+      { place: 'Fastest Lap', icon: '🏁', amount: '₹10,000' },
+    ],
+    antiCheat: 'Xlantis City Server Rules & Staff Oversight',
   },
 ];
 
@@ -94,6 +106,7 @@ const gameMap = Object.fromEntries(GAMES.map((g) => [g.id, g]));
 export default function TournamentsPage() {
   const [activeGame,   setActiveGame]   = useState('all');
   const [activeStatus, setActiveStatus] = useState('all');
+  const [registerFor,  setRegisterFor]  = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => { window.scrollTo(0, 0); }, []);
@@ -125,7 +138,7 @@ export default function TournamentsPage() {
             </div>
             <div className="tp-stat-sep" />
             <div className="tp-stat">
-              <span className="tp-stat-n">3</span>
+              <span className="tp-stat-n">1</span>
               <span className="tp-stat-l">Upcoming</span>
             </div>
             <div className="tp-stat-sep" />
@@ -200,7 +213,13 @@ export default function TournamentsPage() {
           <section className="tp-section">
             <div className="tp-grid">
               {upcoming.map((t) => (
-                <UpcomingCard key={t.id} t={t} game={gameMap[t.gameId]} />
+                <UpcomingCard
+                  key={t.id}
+                  t={t}
+                  game={gameMap[t.gameId]}
+                  onClick={() => navigate(`/tournaments/${t.id}`)}
+                  onRegister={t.registrationOpen ? () => setRegisterFor(t) : undefined}
+                />
               ))}
             </div>
           </section>
@@ -210,6 +229,14 @@ export default function TournamentsPage() {
           <p className="tp-empty">No tournaments match this filter. Check back soon!</p>
         )}
       </div>
+
+      {registerFor && (
+        <TeamRegisterModal
+          tournament={registerFor}
+          game={gameMap[registerFor.gameId]}
+          onClose={() => setRegisterFor(null)}
+        />
+      )}
     </div>
   );
 }
@@ -270,26 +297,64 @@ function CompletedCard({ t, game, onClick }) {
   );
 }
 
-/* ── Upcoming Card — greyed & locked ─────────── */
-function UpcomingCard({ t, game }) {
+/* ── Upcoming Card — facts visible, no winner yet ── */
+function UpcomingCard({ t, game, onClick, onRegister }) {
   return (
-    <div className="tp-card upcoming" style={{ '--c': t.color, '--cr': t.colorRgb }}>
-      <div className="tp-card-blob-grey" />
+    <div
+      className="tp-card upcoming"
+      style={{ '--c': t.color, '--cr': t.colorRgb }}
+      onClick={onClick}
+      role="button"
+      tabIndex={0}
+      onKeyDown={(e) => e.key === 'Enter' && onClick()}
+    >
+      <div className="tp-card-blob" />
+
       <div className="tp-card-top">
-        <div className="tp-card-game-badge greyed">
-          {game.logo && <img src={game.logo} alt={game.label} className="tp-game-logo-sm greyed-img" />}
-          <span>{game.label}</span>
+        <div className="tp-card-game-badge">
+          {game.logo && <img src={game.logo} alt={game.label} className="tp-game-logo-sm" />}
+          <span style={{ color: t.color }}>{game.label}</span>
         </div>
-        <span className="tp-chip upcoming-chip">COMING SOON</span>
+        <span className="tp-chip upcoming-chip">UPCOMING</span>
       </div>
-      <h3 className="tp-card-title greyed">{t.title}</h3>
-      <p className="tp-card-sub greyed">{t.subtitle}</p>
-      <div className="tp-locked-overlay">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" width="26" height="26">
-          <rect x="3" y="11" width="18" height="11" rx="2"/>
-          <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
-        </svg>
-        <p>Details coming soon</p>
+
+      <h3 className="tp-card-title">{t.title}</h3>
+      <p className="tp-card-sub">{t.subtitle} · {t.year}</p>
+
+      <div className="tp-facts">
+        <div className="tp-fact"><TrophyIcon color={t.color} /><span>{t.prizePool}</span></div>
+        <div className="tp-fact"><TeamsIcon  color={t.color} /><span>{t.teams} Crews</span></div>
+        <div className="tp-fact"><GamepadIcon color={t.color} /><span>{t.format}</span></div>
+        <div className="tp-fact"><GlobeIcon  color={t.color} /><span>{t.region}</span></div>
+      </div>
+
+      {t.finals?.date && (
+        <div className="tp-winner-banner">
+          <span className="tp-winner-crown"><CrownIcon color={t.color} /></span>
+          <div className="tp-winner-info">
+            <span className="tp-winner-label">Finals Date</span>
+            <span className="tp-winner-name">{t.finals.date}</span>
+          </div>
+          {t.partnerLogo && (
+            <img src={t.partnerLogo} alt={t.partnerName || 'Partner'} className="tp-partner-logo" />
+          )}
+        </div>
+      )}
+
+      <div className="tp-card-actions">
+        {onRegister && (
+          <button
+            type="button"
+            className="tp-card-cta register"
+            onClick={(e) => { e.stopPropagation(); onRegister(); }}
+          >
+            Register Team
+          </button>
+        )}
+        <div className="tp-card-cta">
+          View Full Details
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </div>
       </div>
     </div>
   );
