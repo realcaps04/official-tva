@@ -271,6 +271,9 @@
   margin: 0 0 8px; font-size: 0.8rem; color: rgba(255,255,255,0.55); line-height: 1.5;
   max-width: 360px;
 }
+.trm-success a {
+  color: var(--c); text-decoration: underline;
+}
 .trm-success .trm-submit { width: 100%; max-width: 220px; }
 
 @media (max-width: 640px) {

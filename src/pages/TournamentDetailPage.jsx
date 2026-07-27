@@ -143,12 +143,20 @@ export default function TournamentDetailPage() {
             <Section icon={<PlatformIcon />} title="Required Platforms" color={t.color}>
               <p className="tdp-section-note">All teams must be available and active on these platforms during the tournament.</p>
               <div className="tdp-platform-list">
-                {t.platforms.map((p, i) => (
-                  <div key={i} className="tdp-platform-item">
-                    <span className="tdp-platform-dot" style={{ background: t.color }} />
-                    {p}
-                  </div>
-                ))}
+                {t.platforms.map((p, i) => {
+                  const label = typeof p === 'string' ? p : p.label;
+                  const url = typeof p === 'string' ? null : p.url;
+                  return (
+                    <div key={i} className="tdp-platform-item">
+                      <span className="tdp-platform-dot" style={{ background: t.color }} />
+                      {url ? (
+                        <a href={url} target="_blank" rel="noopener noreferrer" className="tdp-platform-link">
+                          {label}
+                        </a>
+                      ) : label}
+                    </div>
+                  );
+                })}
               </div>
             </Section>
 

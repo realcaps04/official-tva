@@ -37,6 +37,7 @@ export default function Navbar() {
           <li><HashLink smooth to="/#members" onClick={closeMenu}>Crew</HashLink></li>
           <li><HashLink smooth to="/#highlights" onClick={closeMenu}>Highlights</HashLink></li>
           <li><Link to="/tournaments" onClick={closeMenu}>Tournaments</Link></li>
+          <li><Link to="/support" onClick={closeMenu}>Support</Link></li>
         </ul>
 
         {/* Right — CTA */}

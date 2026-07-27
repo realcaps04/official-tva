@@ -87,7 +87,13 @@ export const TOURNAMENTS = [
       matches: 3,
       maps: ['Los Santos Circuit', 'Highway Sprint', 'Dockyard Drift'],
     },
-    platforms: ['Xlantis City FiveM', 'TVA Discord'],
+    platforms: [
+      'Xlantis City FiveM',
+      {
+        label: 'Tournament Discord',
+        url: 'https://discord.com/channels/1531067880676921546/1531073347939729460/1531106709907706057',
+      },
+    ],
     prizes: [
       { place: '1st Place', icon: '🥇', amount: '₹40,000' },
       { place: '2nd Place', icon: '🥈', amount: '₹30,000' },

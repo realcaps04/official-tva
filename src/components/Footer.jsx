@@ -25,7 +25,8 @@ export default function Footer() {
                 <li><HashLink smooth to="/#about">About</HashLink></li>
                 <li><HashLink smooth to="/#members">Crew</HashLink></li>
                 <li><HashLink smooth to="/#highlights">Highlights</HashLink></li>
-                <li><HashLink smooth to="/#games">Games</HashLink></li>
+                <li><Link to="/tournaments">Tournaments</Link></li>
+                <li><Link to="/support">Support</Link></li>
               </ul>
             </div>
             <div className="footer-col">

@@ -156,7 +156,17 @@ export default function TeamRegisterModal({ tournament: t, game, onClose }) {
                 </svg>
               </div>
               <h3>Registration Submitted</h3>
-              <p>Your crew <strong>{form.teamName}</strong> is registered for {t.title}. TVA & Xlantis will contact you on Discord.</p>
+              <p>
+                Your crew <strong>{form.teamName}</strong> is registered for {t.title}.{' '}
+                {(() => {
+                  const discord = t.platforms?.find((p) => typeof p === 'object' && p.url?.includes('discord'));
+                  return discord ? (
+                    <>Join the <a href={discord.url} target="_blank" rel="noopener noreferrer">tournament Discord</a> for updates.</>
+                  ) : (
+                    <>TVA & Xlantis will contact you on Discord.</>
+                  );
+                })()}
+              </p>
               <button type="button" className="trm-submit" onClick={onClose}>Done</button>
             </div>
           ) : (
