@@ -118,12 +118,12 @@ export function readStore() {
   }
 }
 
-export function writeStore(next) {
+export function writeStore(next: any) {
   ensureStore();
   fs.writeFileSync(STORE_PATH, JSON.stringify(next, null, 2), 'utf8');
 }
 
-export function updateStore(mutator) {
+export function updateStore(mutator: (s: any) => any) {
   const current = readStore();
   const next = mutator(current) || current;
   writeStore(next);

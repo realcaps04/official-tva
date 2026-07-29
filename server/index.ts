@@ -37,13 +37,18 @@ app.get('/health', (_req, res) => {
   res.json({ status: 'ok', timestamp: new Date().toISOString() });
 });
 
-// Start Server & Background Workers
-app.listen(PORT, () => {
-  console.log(`[Server] TVA API running on port ${PORT}`);
-  console.log(`[Admin] Login requires Supabase admin_users credentials`);
-  const hasUrl = Boolean(process.env.SUPABASE_URL || process.env.VITE_SUPABASE_URL);
-  const hasKey = Boolean(process.env.SUPABASE_ANON_KEY || process.env.VITE_SUPABASE_ANON_KEY);
-  const hasFallback = Boolean(process.env.ADMIN_PASSWORD);
-  console.log(`[Admin] Supabase URL: ${hasUrl ? 'set' : 'MISSING'}, anon key: ${hasKey ? 'set' : 'MISSING'}, env fallback: ${hasFallback ? 'set' : 'off'}`);
-  startPollingWorker();
-});
+// Export app for Vercel serverless handler
+export { app };
+
+// Start Server & Background Workers (only when running directly, not on Vercel)
+if (process.env.VERCEL !== '1') {
+  app.listen(PORT, () => {
+    console.log(`[Server] TVA API running on port ${PORT}`);
+    console.log(`[Admin] Login requires Supabase admin_users credentials`);
+    const hasUrl = Boolean(process.env.SUPABASE_URL || process.env.VITE_SUPABASE_URL);
+    const hasKey = Boolean(process.env.SUPABASE_ANON_KEY || process.env.VITE_SUPABASE_ANON_KEY);
+    const hasFallback = Boolean(process.env.ADMIN_PASSWORD);
+    console.log(`[Admin] Supabase URL: ${hasUrl ? 'set' : 'MISSING'}, anon key: ${hasKey ? 'set' : 'MISSING'}, env fallback: ${hasFallback ? 'set' : 'off'}`);
+    startPollingWorker();
+  });
+}

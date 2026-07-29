@@ -172,7 +172,7 @@ router.post('/admin/members', requireAdmin, async (req, res) => {
 
 router.put('/admin/members/:id', requireAdmin, async (req, res) => {
   try {
-    const member = await updateCrewMember(req.params.id, req.body || {});
+    const member = await updateCrewMember(String(req.params.id), req.body || {});
     return res.json({ member });
   } catch (err: any) {
     const status = /not found/i.test(err.message || '') ? 404 : 400;
@@ -182,7 +182,7 @@ router.put('/admin/members/:id', requireAdmin, async (req, res) => {
 
 router.delete('/admin/members/:id', requireAdmin, async (req, res) => {
   try {
-    await deleteCrewMember(req.params.id);
+    await deleteCrewMember(String(req.params.id));
     return res.json({ ok: true });
   } catch (err: any) {
     const status = /not found/i.test(err.message || '') ? 404 : 400;
