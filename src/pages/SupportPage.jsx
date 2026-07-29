@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { api } from '../lib/api';
 import './SupportPage.css';
 
 const DISCORD_URL = 'https://discord.com/channels/1531067880676921546/1531073347939729460/1531106709907706057';
@@ -273,7 +274,7 @@ function TicketModal({ type, meta, onClose }) {
     setError('');
   }
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
     if (!form.name.trim()) { setError('Enter your name.'); return; }
     if (!form.email.trim() && !form.discord.trim()) {
@@ -282,12 +283,18 @@ function TicketModal({ type, meta, onClose }) {
     }
     if (!form.message.trim()) { setError('Describe your request in detail.'); return; }
 
+    const entry = { ...form, type, submittedAt: new Date().toISOString() };
+
     try {
-      const key = `tva-support-tickets-${type}`;
-      const prev = JSON.parse(localStorage.getItem(key) || '[]');
-      prev.push({ ...form, type, submittedAt: new Date().toISOString() });
-      localStorage.setItem(key, JSON.stringify(prev));
-    } catch { /* ignore */ }
+      await api.createTicket(entry);
+    } catch {
+      try {
+        const key = `tva-support-tickets-${type}`;
+        const prev = JSON.parse(localStorage.getItem(key) || '[]');
+        prev.push(entry);
+        localStorage.setItem(key, JSON.stringify(prev));
+      } catch { /* ignore */ }
+    }
 
     setDone(true);
   }

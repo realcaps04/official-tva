@@ -1,10 +1,26 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { members } from '../data/members';
+import { members as fallbackMembers } from '../data/members';
+import { api } from '../lib/api';
 import './Members.css';
 
 export default function Members({ limit, showViewAll }) {
   const sectionRef = useRef(null);
+  const [members, setMembers] = useState(fallbackMembers);
+
+  useEffect(() => {
+    let cancelled = false;
+    api.getMembers()
+      .then((data) => {
+        if (!cancelled && Array.isArray(data.members) && data.members.length) {
+          setMembers(data.members);
+        }
+      })
+      .catch(() => {
+        /* keep static fallback */
+      });
+    return () => { cancelled = true; };
+  }, []);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -21,7 +37,7 @@ export default function Members({ limit, showViewAll }) {
     const els = sectionRef.current?.querySelectorAll('.reveal');
     els?.forEach((el) => observer.observe(el));
     return () => observer.disconnect();
-  }, []);
+  }, [members]);
 
   const displayedMembers = limit ? members.slice(0, limit) : members;
 
@@ -38,7 +54,7 @@ export default function Members({ limit, showViewAll }) {
           {displayedMembers.map((m, i) => (
             <div
               className="member-card reveal"
-              key={i}
+              key={m.id || `${m.name}-${i}`}
               style={{ transitionDelay: `${(i % 6) * 0.08}s` }}
             >
               <div className="card-glow"></div>
@@ -51,23 +67,23 @@ export default function Members({ limit, showViewAll }) {
               <div className="member-name">{m.name}</div>
               <div className="member-role">{m.role}</div>
               <div className="member-socials">
-                <a href={m.youtube || "#"} target="_blank" rel="noreferrer" aria-label="YouTube" className="social-icon">
+                <a href={m.youtube || '#'} target="_blank" rel="noreferrer" aria-label="YouTube" className="social-icon">
                   <img src="/images/youtube.png" alt="YouTube" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
                 </a>
-                <a href={m.kick || "#"} target="_blank" rel="noreferrer" aria-label="Kick" className="social-icon">
+                <a href={m.kick || '#'} target="_blank" rel="noreferrer" aria-label="Kick" className="social-icon">
                   <img src="/images/kick.png" alt="Kick" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
                 </a>
-                <a href={m.instagram || "#"} target="_blank" rel="noreferrer" aria-label="Instagram" className="social-icon">
+                <a href={m.instagram || '#'} target="_blank" rel="noreferrer" aria-label="Instagram" className="social-icon">
                   <img src="/images/instagram.png" alt="Instagram" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
                 </a>
-                <a href={m.discord || "#"} target="_blank" rel="noreferrer" aria-label="Discord" className="social-icon">
+                <a href={m.discord || '#'} target="_blank" rel="noreferrer" aria-label="Discord" className="social-icon">
                   <img src="/images/discord.png" alt="Discord" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
                 </a>
               </div>
             </div>
           ))}
         </div>
-        
+
         {showViewAll && (
           <div className="members-action reveal" style={{ marginTop: '40px' }}>
             <Link to="/crew" className="btn btn-primary" style={{ padding: '14px 32px', fontSize: '0.85rem' }}>

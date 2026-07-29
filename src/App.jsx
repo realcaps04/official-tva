@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import './App.css';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
@@ -10,11 +10,15 @@ import TournamentsPage from './pages/TournamentsPage';
 import TournamentDetailPage from './pages/TournamentDetailPage';
 import OurStuffPage from './pages/OurStuffPage';
 import SupportPage from './pages/SupportPage';
+import AdminPage from './pages/AdminPage';
 
-function App() {
+function AppShell() {
+  const { pathname } = useLocation();
+  const isAdmin = pathname.startsWith('/admin');
+
   return (
-    <Router>
-      <Navbar />
+    <>
+      {!isAdmin && <Navbar />}
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/crew" element={<CrewPage />} />
@@ -24,8 +28,17 @@ function App() {
         <Route path="/tournaments/:id" element={<TournamentDetailPage />} />
         <Route path="/our-stuff" element={<OurStuffPage />} />
         <Route path="/support" element={<SupportPage />} />
+        <Route path="/admin/*" element={<AdminPage />} />
       </Routes>
-      <Footer />
+      {!isAdmin && <Footer />}
+    </>
+  );
+}
+
+function App() {
+  return (
+    <Router>
+      <AppShell />
     </Router>
   );
 }

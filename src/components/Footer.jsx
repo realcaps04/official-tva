@@ -48,6 +48,7 @@ export default function Footer() {
               <h4>Developer</h4>
               <ul>
                 <li><a href="#" onClick={(e) => { e.preventDefault(); setShowModal(true); }}>Why I built ?</a></li>
+                <li><Link to="/admin">Admin Login</Link></li>
               </ul>
             </div>
           </div>

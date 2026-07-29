@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { api } from '../lib/api';
 import './TeamRegisterModal.css';
 
 const EMPTY_MEMBER = { name: '', discord: '', phone: '' };
@@ -55,7 +56,7 @@ export default function TeamRegisterModal({ tournament: t, game, onClose }) {
     setError('');
   }
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
     if (!form.teamName.trim()) { setError('Enter your crew / team name.'); return; }
     if (!form.captainName.trim()) { setError('Enter the captain name.'); return; }
@@ -102,12 +103,16 @@ export default function TeamRegisterModal({ tournament: t, game, onClose }) {
     };
 
     try {
-      const key = `tva-registrations-${t.id}`;
-      const prev = JSON.parse(localStorage.getItem(key) || '[]');
-      prev.push(entry);
-      localStorage.setItem(key, JSON.stringify(prev));
+      await api.createRegistration(entry);
     } catch {
-      /* ignore storage errors */
+      try {
+        const key = `tva-registrations-${t.id}`;
+        const prev = JSON.parse(localStorage.getItem(key) || '[]');
+        prev.push(entry);
+        localStorage.setItem(key, JSON.stringify(prev));
+      } catch {
+        /* ignore storage errors */
+      }
     }
 
     setDone(true);

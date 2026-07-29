@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { TOURNAMENTS, GAMES } from './TournamentsPage';
+import { GAMES } from './TournamentsPage';
+import { useTournaments } from '../lib/useTournaments';
 import TeamRegisterModal from '../components/TeamRegisterModal';
 import './TournamentDetailPage.css';
 
@@ -10,9 +11,18 @@ export default function TournamentDetailPage() {
   const { id } = useParams();
   const navigate = useNavigate();
   const [registerOpen, setRegisterOpen] = useState(false);
-  const t = TOURNAMENTS.find((x) => x.id === id);
+  const { tournaments, loading } = useTournaments();
+  const t = tournaments.find((x) => x.id === id);
 
   useEffect(() => { window.scrollTo(0, 0); }, []);
+
+  if (loading && !t) {
+    return (
+      <div className="tdp-not-found">
+        <h2>Loading tournament…</h2>
+      </div>
+    );
+  }
 
   if (!t) {
     return (
