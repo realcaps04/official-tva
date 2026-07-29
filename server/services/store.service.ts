@@ -1,7 +1,10 @@
 import fs from 'fs';
 import path from 'path';
 
-const DATA_DIR = path.join(__dirname, '..', 'data');
+// On Vercel the filesystem is read-only except /tmp.
+// Use /tmp/tva-store when running serverless, otherwise use the local data/ folder.
+const IS_VERCEL = process.env.VERCEL === '1';
+const DATA_DIR = IS_VERCEL ? '/tmp/tva-data' : path.join(__dirname, '..', 'data');
 const STORE_PATH = path.join(DATA_DIR, 'store.json');
 
 const DEFAULT_TOURNAMENTS = [

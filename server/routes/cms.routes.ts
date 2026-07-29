@@ -12,7 +12,11 @@ import {
   deleteCrewMember,
 } from '../services/members.service';
 
-const IMAGES_DIR = path.resolve(__dirname, '../../public/images');
+// On Vercel, the filesystem is read-only outside /tmp.
+const IS_VERCEL = process.env.VERCEL === '1';
+const IMAGES_DIR = IS_VERCEL
+  ? '/tmp/tva-uploads'
+  : path.resolve(__dirname, '../../public/images');
 if (!fs.existsSync(IMAGES_DIR)) fs.mkdirSync(IMAGES_DIR, { recursive: true });
 
 const memberUpload = multer({
