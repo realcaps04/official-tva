@@ -1,12 +1,6 @@
 {
   "buildCommand": "npm run build && npm install --prefix server && npm run build:server",
   "outputDirectory": "dist",
-  "functions": {
-    "server/dist/api/index.js": {
-      "runtime": "nodejs20.x",
-      "maxDuration": 10
-    }
-  },
   "routes": [
     { "src": "/api/(.*)", "dest": "/server/dist/api/index.js" },
     { "src": "/(.*)", "dest": "/index.html" }
