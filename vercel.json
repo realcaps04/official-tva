@@ -2,7 +2,7 @@
   "buildCommand": "npm run build && npm install --prefix server && npm run build:server",
   "outputDirectory": "dist",
   "rewrites": [
-    { "source": "/api/:path*", "destination": "/server/dist/api/index.js" },
+    { "source": "/api/:path*", "destination": "/api/index.js" },
     { "source": "/:path*", "destination": "/index.html" }
   ]
 }
